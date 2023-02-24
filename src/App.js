@@ -1,24 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+import { Canvas } from "@react-three/fiber";
+import { SceneManager } from './SceneManager/SceneManager';
+import { CameraControls } from './CameraControls/CameraControls';
+import { Box } from '@react-three/drei';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Canvas>
+        <SceneManager />
+        <CameraControls />
+      </Canvas>
+    </>
   );
 }
 
