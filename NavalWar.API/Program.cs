@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NavalWar.Business;
 using NavalWar.DAL;
 
-
+yaa
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
