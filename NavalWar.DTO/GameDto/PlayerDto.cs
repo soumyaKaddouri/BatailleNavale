@@ -10,13 +10,22 @@ namespace NavalWar.DTO.GameDto
     public class PlayerDto
     {
         [Key]
-        public GameMapDto? _playerBoards;
-        public GameMapDto? GetBoards
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public int etat_joueur { get; set; }
+        // Foreign Key
+        public int IdSession { get; set; }
+
+        
+        public SessionDto? Sessions { get; set; }
+
+        public GameMapDto? PlayerBoards { get; set; }
+
+        public GameMapDto GetPlayerBoards()
         {
-            get
-            {
-                return _playerBoards;
-            }
+            return PlayerBoards;
         }
+         
     }
 }

@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "mssql1": {
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/navalwarserver/databases/NavalWar.DAL_db",
+      "type": "mssql.azure",
+      "connectionId": "NavalWarString",
+      "dynamicId": null
+    }
+  }
+}

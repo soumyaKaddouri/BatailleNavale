@@ -1,211 +1,330 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+﻿using NavalWar.DTO.WebDto;
 
 namespace NavalWar.DTO.GameDto
 {
     public class MapDto
     {
-        private readonly int _boardsize = 10;
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public double[][] Grid { get; set; }
 
-        public double[][] Grille { get; set; }
-        static MapDto MAJgrille(MapDto MapAttaque, int i, int j, double value)
+        public MapDto()
+        {
+            Width = 10;
+            Height = 10;
+            InitializeGrid(Width, Height);
+        }
+
+        public MapDto(int InWeight, int InHeight)
+        {
+            InitializeGrid(InWeight, InHeight);
+        }
+
+        /*static MapDto MAJgrille(MapDto MapAttaque, int i, int j, double value)
         {
             MapAttaque.Grille[i][j] = value;
             return MapAttaque;
-        }
-        public bool TestEmplacement(MapDto MapNavires, int i, int j, string direction, string _typeBateau) //1 Nord/ 2 Sud/ 3 Ouest/ 4 Est
+        }*/
+
+        public bool AddShipToGrid(GetbateauDto r)
         {
-            if (_typeBateau is null)
+            bool result = true;
+
+            if (TestShipPlacement(r.startOffsetX, r.startOffsetY, r.shipLength, r.direction))
             {
-                throw new ArgumentNullException(nameof(_typeBateau));
+                PlaceShip(r.startOffsetX, r.startOffsetY, r.shipLength, r.direction);
+            }
+            else
+            {
+                result = false;
             }
 
-            MapDto map = MapNavires;
-            bool test = true;
-            int Longueur = 0;//fonction qui passe _typeBateau en int
-            if (direction == "1")
-            {
-                if (i - Longueur < 0)
-                {
-                    test = false;
-                }
-                else
-                {
-                    for (int k = 0; k < Longueur; k++)
-                    {
+            return result;
+        }
 
-                        if (MapNavires.Grille[i - k][j] == 1)
+        public bool UpdateShipInGrid(GetbateauDto r,GetbateauDto rnew)
+        {
+            bool result = true;
+
+            if (ShipExists(r.startOffsetX, r.startOffsetY, r.shipLength, r.direction))
+            {
+                result = AddShipToGrid(rnew);
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool RemoveShipFromGrid(GetbateauDto r)
+        {
+            bool result = true;
+
+            if (ShipExists(r.startOffsetX, r.startOffsetY, r.shipLength, r.direction))
+            {
+                RemoveShip(r.startOffsetX, r.startOffsetY, r.shipLength, r.direction);
+            }
+            else
+            {
+                result = true;
+                Console.WriteLine("Error: Cannot add this ship. You're outside the map");
+            }
+
+            return result;
+        }
+
+        private bool TestShipPlacement(int startOffsetX, int startOffsetY, int shipLength, int direction)
+        {
+            bool result = true;
+
+            if (startOffsetX < 0 || startOffsetX > Width - 1 || startOffsetY < 0 || startOffsetY > Height - 1)
+            {
+                if (direction == 1)
+                {
+                    if (startOffsetY + shipLength - 1 > Height - 1)
+                    {
+                        result = false;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < shipLength; k++)
                         {
-                            test = false;
-                        }
-                        else
-                        {
-                            map.Grille[i - k][j] = 1;
+
+                            if (Grid[startOffsetX][startOffsetY + k] == 1)
+                            {
+                                result = false;
+                            }
                         }
                     }
                 }
-            }
-            else if (direction == "2")
-            {
-                if (i + Longueur > MapNavires._boardsize)
+                else if (direction == 2)
                 {
-                    test = false;
-                }
-                else
-                {
-                    for (int k = 0; k < Longueur; k++)
+                    if (startOffsetY - shipLength + 1 < 0)
                     {
-                        if (MapNavires.Grille[i + k][j] == 1)
+                        result = false;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < shipLength; k++)
                         {
-                            test = false;
-                        }
-                        else
-                        {
-                            map.Grille[i + k][j] = 1;
+
+                            if (Grid[startOffsetX][startOffsetY - k] == 1)
+                            {
+                                result = false;
+                            }
                         }
                     }
                 }
-
-            }
-            else if (direction == "3")
-            {
-                if (j - Longueur < 0)
+                else if (direction == 3)
                 {
-                    test = false;
-                }
-                else
-                {
-                    for (int k = 0; k < Longueur; k++)
+                    if (startOffsetX - shipLength + 1 < 0)
                     {
-                        if (MapNavires.Grille[i][j - k] == 1)
+                        result = false;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < shipLength; k++)
                         {
-                            test = false;
+
+                            if (Grid[startOffsetX - k][startOffsetY] == 1)
+                            {
+                                result = false;
+                            }
                         }
-                        else
+                    }
+                }
+                else if (direction == 4)
+                {
+                    if (startOffsetX + shipLength - 1 < 0)
+                    {
+                        result = false;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < shipLength; k++)
                         {
-                            map.Grille[i][j - k] = 1;
+
+                            if (Grid[startOffsetX + k][startOffsetY] == 1)
+                            {
+                                result = false;
+                            }
                         }
                     }
                 }
             }
             else
             {
-                if (j + Longueur >= MapNavires._boardsize)
-                {
-                    test = false;
-                }
-                else
-                {
-                    for (int k = 0; k < Longueur; k++)
-                    {
-                        if (MapNavires.Grille[i][j + k] == 1)
-                        {
-                            test = false;
-                        }
-                        else
-                        {
-                            map.Grille[i][j + k] = 1;
-                        }
-                    }
-                }
+                result = false;
             }
-            if (test) { MapNavires = map; }
 
-            return test;
+            return result;
         }
 
-        public void SupressionBateau(MapDto MapNavires, int i, int j, string direction, string type) //1 Nord/ 2 Sud/ 3 Ouest/ 4 Est
+        private bool ShipExists(int startOffsetX, int startOffsetY, int shipLength, int direction)
         {
+            bool result = true;
 
-            int Longueur = 4;
-            if (MapNavires.Grille[i][j] != 0)
+            if (startOffsetX < 0 || startOffsetX > Width - 1 || startOffsetY < 0 || startOffsetY > Height - 1)
             {
-                int k = 0;
-                int k1 = 0;
-                int l = Longueur;
-                if (direction == "1" || direction == "2")
+                if (direction == 1)
                 {
-                    while (l != 0)
+                    if (startOffsetY + shipLength - 1 > Height - 1)
                     {
-                        if (i + k < MapNavires._boardsize)
+                        result = false;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < shipLength; k++)
                         {
-                            if (MapNavires.Grille[i + k][j] == 1)
+
+                            if (Grid[startOffsetX][startOffsetY + k] == 0)
                             {
-                                MapNavires.Grille[i + k][j] = 0;
-                                l--;
-                                k++;
-                            }
-                        }
-                        if (i - k1 >= 0)
-                        {
-                            if (MapNavires.Grille[i - k1][j] == 1)
-                            {
-                                MapNavires.Grille[i - k1][j] = 0;
-                                l--;
-                                k1++;
+                                result = false;
                             }
                         }
                     }
                 }
-                else
+                else if (direction == 2)
                 {
-                    while (l != 0)
+                    if (startOffsetY - shipLength + 1 < 0)
                     {
-                        if (j + k < MapNavires._boardsize)
+                        result = false;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < shipLength; k++)
                         {
-                            if (MapNavires.Grille[i][j + k] == 1)
+
+                            if (Grid[startOffsetX][startOffsetY - k] == 0)
                             {
-                                MapNavires.Grille[i][j + k] = 0;
-                                l--;
-                                k++;
+                                result = false;
                             }
                         }
-                        if (j - k1 >= 0)
+                    }
+                }
+                else if (direction == 3)
+                {
+                    if (startOffsetX - shipLength + 1 < 0)
+                    {
+                        result = false;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < shipLength; k++)
                         {
-                            if (MapNavires.Grille[i][j - k1] == 1)
+
+                            if (Grid[startOffsetX - k][startOffsetY] == 0)
                             {
-                                MapNavires.Grille[i][j - k1] = 0;
-                                l--;
-                                k1++;
+                                result = false;
+                            }
+                        }
+                    }
+                }
+                else if (direction == 4)
+                {
+                    if (startOffsetX + shipLength - 1 < 0)
+                    {
+                        result = false;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < shipLength; k++)
+                        {
+
+                            if (Grid[startOffsetX + k][startOffsetY] == 0)
+                            {
+                                result = false;
                             }
                         }
                     }
                 }
             }
+            else
+            {
+                result = false;
+            }
+
+            return result;
         }
-        public MapDto()
+
+        private void PlaceShip(int startOffsetX, int startOffsetY, int shipLength, int direction)
         {
-            _boardsize = 10;
-            double[][] _grille1 = new double[_boardsize][];
-            for (int i = 0; i < _boardsize; i++)
+            if (direction == 1)
             {
-                _grille1[i] = new double[_boardsize];
+                for (int k = 0; k < shipLength; k++)
+                {
+                    Grid[startOffsetX][startOffsetY + k] = 1;
+                }
             }
-            for (int i = 0; i < _boardsize; i++)
+            else if (direction == 2)
             {
-                for (int j = 0; j < _boardsize; j++)
-                    _grille1[i][j] = 0;
+                for (int k = 0; k < shipLength; k++)
+                {
+                    Grid[startOffsetX][startOffsetY - k] = 1;
+                }
             }
-            Grille = _grille1;
+            else if (direction == 3)
+            {
+                for (int k = 0; k < shipLength; k++)
+                {
+                    Grid[startOffsetX - k][startOffsetY] = 1;
+                }
+            }
+            else if (direction == 4)
+            {
+                for (int k = 0; k < shipLength; k++)
+                {
+                    Grid[startOffsetX + k][startOffsetY] = 1;
+                }
+            }
         }
-        public MapDto(int a)
+
+        private void RemoveShip(int startOffsetX, int startOffsetY, int shipLength, int direction)
         {
-            _boardsize= a;
-            double[][] grille1 = new double[_boardsize][];
-            for (int i = 0; i < _boardsize; i++)
+            if (direction == 1)
             {
-                grille1[i] = new double[_boardsize];
+                for (int k = 0; k < shipLength; k++)
+                {
+                    Grid[startOffsetX][startOffsetY + k] = 0;
+                }
             }
-            for (int i = 0; i < _boardsize; i++)
+            else if (direction == 2)
             {
-                for (int j = 0; j < _boardsize; j++)
-                    grille1[i][j] = 0;
+                for (int k = 0; k < shipLength; k++)
+                {
+                    Grid[startOffsetX][startOffsetY - k] = 0;
+                }
             }
-            Grille = grille1;
+            else if (direction == 3)
+            {
+                for (int k = 0; k < shipLength; k++)
+                {
+                    Grid[startOffsetX - k][startOffsetY] = 0;
+                }
+            }
+            else if (direction == 4)
+            {
+                for (int k = 0; k < shipLength; k++)
+                {
+                    Grid[startOffsetX + k][startOffsetY] = 0;
+                }
+            }
+        }
+
+
+        private void InitializeGrid(int InWidth, int InHeight)
+        {
+            Grid = new double[InWidth][];
+
+            for (int i = 0; i < InWidth; i++)
+            {
+                Grid[i] = new double[InHeight];
+
+                for (int j = 0; j < InHeight; j++)
+                    Grid[i][j] = 0;
+            }
         }
     }
 }

@@ -8,16 +8,16 @@ namespace NavalWar.DTO.WebDto
 {
     public class GetbateauDto
     {
-        public int x;
-        public int y;
-        public string direction = "";
-        public string type = "";
-        public GetbateauDto(int x, int y, string direction, string type)
+        public int startOffsetX;
+        public int startOffsetY;
+        public int direction ;//up,down,Left,Right
+        public int shipLength;//longueur
+        public GetbateauDto(int x, int y, int direction, int type)
         {
-            this.x = x;
-            this.y = y;
+            this.startOffsetX = x;
+            this.startOffsetY = y;
             this.direction = direction;
-            this.type = type;
+            this.shipLength = type;
         }
     }
 }

@@ -10,45 +10,49 @@ namespace NavalWar.DTO.GameDto
 
     public class SessionDto
     {
-        static int Id { get; set; }
+        public int Id { get; set; }
+        public int GameState { get; set; }
+        public string GameName { get; set; }
 
-        static int _etat;
-        public void SetId(int a)
-        { 
-            Id = a;
-        }
+        public int joueurid { get; set; }
+        public List<PlayerDto> Players { get; set; }
+
         public int GetId()
         {
-            return  Id;
+            return Id;
         }
-        public int GetEtat()
+        public int GetActivePlayer()
         {
-            return _etat;
+            return joueurid;
         }
-        List<PlayerDto> _players = new List<PlayerDto>();
+        public void SetId(int InId)
+        {
+            Id = InId;
+        }
 
-        public List<PlayerDto> Players
+        public int GetGameState()
         {
-            get { return _players; }
+            return GameState;
+        }
+
+        public List<PlayerDto> GetPlayers()
+        {
+            return Players;
         }
 
         public bool isGameFull()
         {
-            return _players.Count == 2;
+            return Players.Count == 2;
         }
 
-        public void AddPLayer()
+        public void AddPLayer(PlayerDto InPlayer)
         {
             if (isGameFull())
             {
-                throw new Exception("Game is full (Max 2 players");
+                throw new Exception("Game is full (Max 2 players)");
             }
-            _players.Add(new PlayerDto());
-        }
-        public SessionDto()
-        {
-            _etat = 0;
-            Id++;
+
+            Players.Add(InPlayer);
         }
     }
 }

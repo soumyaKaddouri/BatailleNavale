@@ -2,27 +2,36 @@ namespace NavalWar.DTO.GameDto
 {
     public class GameMapDto
     {
-        
-        public MapDto PersonalBoard { get; set; }
+        public int Id { get; set; }
+        public MapDto ShipPositionsBoard { get; set; }
         public MapDto ShotsBoard { get; set; }
+
         public GameMapDto()
         {
-            PersonalBoard = new MapDto(10);
+            ShipPositionsBoard = new MapDto();
             ShotsBoard = new MapDto();
         }
 
-        public MapDto GetPersonalBoard
+        public GameMapDto(int InWidth, int InHeight)
         {
-            get { return PersonalBoard; }
+            ShipPositionsBoard = new MapDto(InWidth, InHeight);
+            ShotsBoard = new MapDto(InWidth, InHeight);
         }
-        public MapDto GetShotsBoard
+
+        public MapDto GetShipPositionsBoard()
         {
-            get { return ShotsBoard; }
+            return ShipPositionsBoard;
         }
-        static GameMapDto MajMapAttaques(GameMapDto GM, MapDto MapAttaque)
+
+        public MapDto GetShotsBoard()
+        {
+            return ShotsBoard;
+        }
+
+        /*static GameMapDto MajMapAttaques(GameMapDto GM, MapDto MapAttaque)
         {
             GM.ShotsBoard = MapAttaque;
             return GM;
-        }
+        }*/
     }
 }

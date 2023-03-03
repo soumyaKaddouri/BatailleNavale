@@ -3,42 +3,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NavalWar.Business;
 using NavalWar.DTO.GameDto;
+using NavalWar.DAL.Repository.Sessions;
+using NavalWar.DAL.Repository.Players;
+
 
 namespace NavalWar.API.Controllers
 {
     public class SessionController : ControllerBase
     {
-        private readonly  ISessionService _gameService;
-        public SessionController(ISessionService gameService)
+        private readonly ISessionRepository _sess;
+        public SessionController( ISessionRepository sess)
         {
-            _gameService = gameService;
+            _sess = sess;
         }
 
         // GET: api/<GameAreaController>
         [HttpGet("NouvellePartie")]
         public IActionResult NouvellePartie()
         {
-            _gameService.NewSession();
-            return Ok(_gameService.GetSession().GetId());
+            var session = _sess.NewSession();
+            return Ok(session.GetId());
         }
-        [HttpPost("{id}/PlayerSession")] 
-        public IActionResult GetPlayerBoards(int id)
+        [HttpGet("{id}/Session")] 
+        public IActionResult GetSession(int id)
         {
-
-            _gameService.GetSession().AddPLayer();
-            List<PlayerDto> dto = new List<PlayerDto>();
-            foreach (var player in dto)
-            {
-                dto.Add(new PlayerDto
-                {
-
-                    _playerBoards = player.GetBoards
-
-                });
-            }
-
-            return Ok(dto);
+            var session = _sess.GetSessionById(id);
+            return Ok(session);
         }
+        
 
         // GET api/<GameAreaController>/5
         [HttpGet("{id}")]
@@ -65,6 +57,4 @@ namespace NavalWar.API.Controllers
         {
         }
     }
-
 }
-
