@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NavalWar.DAL\NavalWar.DAL.csproj" />
     <ProjectReference Include="..\NavalWar.DTO\NavalWar.DTO.csproj" />
   </ItemGroup>
 

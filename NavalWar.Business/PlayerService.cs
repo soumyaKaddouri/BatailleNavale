@@ -1,19 +1,26 @@
 ﻿using NavalWar.DTO.GameDto;
 using NavalWar.DTO.WebDto;
+using NavalWar.DAL.Repository.Players;
+
 
 namespace NavalWar.Business
 {
     public class PlayerService : IPlayerService
     {
+        private readonly IPlayerRepository _play;
+        public PlayerService(IPlayerRepository play)
+        {
+            _play = play;
+        }
         public GameMapDto GetGameMap()
         {
             GameMapDto game = new GameMapDto();
             return game;
         }
 
-        public GameMapDto? GetGameMap(int gameMapId)
+        public GameMapDto? GetGameMap(int Id)
         {
-            GameMapDto game = new GameMapDto();
+            GameMapDto game = _play.GetPlayerById(Id).PlayerBoards;
             return game;
 
         }
@@ -24,10 +31,6 @@ namespace NavalWar.Business
 
             }
             return player;
-        }
-        public GameMapDto? GetGameMap(int id_joueur, int id_session)
-        {
-            return new GameMapDto();
         }
         public List<PlayerDto> Shoot(PlayerDto Attaquant, PlayerDto Defenseur,int i,int j)
 

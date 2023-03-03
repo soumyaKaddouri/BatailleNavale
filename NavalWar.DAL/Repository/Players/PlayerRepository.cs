@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NavalWar.DAL.Models;
+﻿using NavalWar.DAL.Models;
 using NavalWar.DTO.GameDto;
 namespace NavalWar.DAL.Repository.Players
 {

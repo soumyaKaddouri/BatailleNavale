@@ -16,11 +16,9 @@ namespace NavalWar.API.Controllers
 
         SessionDto gameArea = new SessionDto();
         private readonly IPlayerService _playerServ;
-        private readonly IPlayerRepository _player;
-        public PlayerController(IPlayerService play, IPlayerRepository player)
+        public PlayerController(IPlayerService play)
         {
             _playerServ = play;
-            _player = player;
         }
         
 
@@ -31,7 +29,7 @@ namespace NavalWar.API.Controllers
             GameMapDto gameMaps = new GameMapDto();
             try
             { 
-                gameMaps = _player.GetGameMaps(id);
+                gameMaps = _playerServ.GetGameMap(id);
                 return View(gameMaps);
             }
             catch(Exception) 
