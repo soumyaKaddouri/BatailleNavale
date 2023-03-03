@@ -1,0 +1,11 @@
+Model Information:
+* title:	RSS Hammer
+* source:	https://sketchfab.com/3d-models/rss-hammer-e365c9da21744bc2a7b0849070be77fe
+* author:	martyn169 (https://sketchfab.com/martyn169)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "RSS Hammer" (https://sketchfab.com/3d-models/rss-hammer-e365c9da21744bc2a7b0849070be77fe) by martyn169 (https://sketchfab.com/martyn169) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
