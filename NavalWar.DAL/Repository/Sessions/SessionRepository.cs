@@ -9,7 +9,7 @@ namespace NavalWar.DAL.Repository.Sessions
         {
             _context = context;
         }
-        public SessionDto NewSession()
+        public SessionDto NewSessionDal()
         {
             try
             {
@@ -45,7 +45,7 @@ namespace NavalWar.DAL.Repository.Sessions
             }
         }
 
-        public SessionDto? GetSessionById(int id)
+        public SessionDto? GetSessionByIdDal(int id)
         {
             try
             {

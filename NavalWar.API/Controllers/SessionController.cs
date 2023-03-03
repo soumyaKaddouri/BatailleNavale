@@ -1,18 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using NavalWar.Business;
-using NavalWar.DTO.GameDto;
-using NavalWar.DAL.Repository.Sessions;
-using NavalWar.DAL.Repository.Players;
+using NavalWar.DTO.WebDto;
+
 
 
 namespace NavalWar.API.Controllers
 {
     public class SessionController : ControllerBase
     {
-        private readonly ISessionRepository _sess;
-        public SessionController( ISessionRepository sess)
+        private readonly ISessionService _sess;
+        public SessionController( ISessionService sess)
         {
             _sess = sess;
         }
@@ -30,7 +27,22 @@ namespace NavalWar.API.Controllers
             var session = _sess.GetSessionById(id);
             return Ok(session);
         }
-        
+
+
+        [HttpPost("/RejoindreUneSession")]
+        public IActionResult AjoutJoueur([FromBody] int id,PlayerWebDto player)
+        {
+            var session = _sess.GetSessionById(id);
+            try
+            {
+                session.AddPLayerWeb(player);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok(session);
+        }
 
         // GET api/<GameAreaController>/5
         [HttpGet("{id}")]

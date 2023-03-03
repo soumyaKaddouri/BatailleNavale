@@ -4,6 +4,7 @@ using NavalWar.DAL;
 using NavalWar.Business;
 using NavalWar.DTO.WebDto;
 using NavalWar.DAL.Repository.Players;
+using NavalWar.DAL.Repository.Sessions;
 
 namespace NavalWar.API.Controllers
 {
@@ -15,13 +16,13 @@ namespace NavalWar.API.Controllers
 
 
         SessionDto gameArea = new SessionDto();
-        private readonly IPlayerService _playerServ;
+        private readonly IPlayerService _player;
         public PlayerController(IPlayerService play)
         {
-            _playerServ = play;
+            _player = play;
         }
-        
 
+        
 
         [HttpGet("/Players/{id}/GameMaps")]
         public ActionResult GetGameMaps(int id)
@@ -29,7 +30,7 @@ namespace NavalWar.API.Controllers
             GameMapDto gameMaps = new GameMapDto();
             try
             { 
-                gameMaps = _playerServ.GetGameMap(id);
+                gameMaps = _player.GetGameMap(id);
                 return View(gameMaps);
             }
             catch(Exception) 

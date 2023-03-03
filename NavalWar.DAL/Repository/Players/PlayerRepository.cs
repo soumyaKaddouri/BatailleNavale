@@ -30,7 +30,7 @@ namespace NavalWar.DAL.Repository.Players
             }
         }
 
-        public PlayerDto GetPlayerById(int id)
+        public PlayerDto GetPlayerByIdDal(int id)
         {
             try
             {
@@ -43,12 +43,12 @@ namespace NavalWar.DAL.Repository.Players
             }
         }
 
-        public void AddPlayer(PlayerDto playerDto)
+        public void AddPlayerDal(PlayerDto playerDto)
         {
             try
             {
                 Player player = new Player();
-
+                player.IdSession =playerDto.IdSession;
                 _context.Players.Add(player);
                 _context.SaveChanges();
             }
@@ -63,7 +63,7 @@ namespace NavalWar.DAL.Repository.Players
             try
             {
                 RemovePlayer(currentPlayerDto.Id);
-                AddPlayer(newPlayerDto);
+                AddPlayerDal(newPlayerDto);
             }
             catch (Exception)
             {
@@ -79,13 +79,6 @@ namespace NavalWar.DAL.Repository.Players
                 _context.Players.Remove(player);
                 _context.SaveChanges();
             }
-        }
-        public GameMapDto GetGameMaps(int id_play)
-        {
-            GameMapDto maps = new GameMapDto();
-            maps = GetPlayerById(id_play).GetPlayerBoards();
-            return maps;
-
         }
     }
 }

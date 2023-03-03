@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NavalWar.DTO.WebDto;
 
 namespace NavalWar.DTO.GameDto
 {
@@ -45,13 +40,22 @@ namespace NavalWar.DTO.GameDto
             return Players.Count == 2;
         }
 
+        public void AddPLayerWeb(PlayerWebDto InPlayer)
+        {
+            if (isGameFull())
+            {
+                throw new Exception("Game is full (Max 2 players)");
+            }
+            PlayerDto player= new PlayerDto();
+            player.Name = InPlayer.name;
+            Players.Add(player);
+        }
         public void AddPLayer(PlayerDto InPlayer)
         {
             if (isGameFull())
             {
                 throw new Exception("Game is full (Max 2 players)");
             }
-
             Players.Add(InPlayer);
         }
     }

@@ -7,6 +7,8 @@ namespace NavalWar.Business
    public interface IPlayerService
     {
         public GameMapDto? GetGameMap(int gameMapId);
+
+        public PlayerDto GetPlayerById(int id);
         public GameMapDto? GetGameMap();
         public PlayerDto ajout_bateau(PlayerDto player, GetbateauDto r);
         public List<PlayerDto> Shoot(PlayerDto Attaquant, PlayerDto Defenseur, int i, int j);

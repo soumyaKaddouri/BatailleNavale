@@ -9,8 +9,8 @@ namespace NavalWar.Business
 {
     public interface ISessionService
     {
-        public SessionDto? GetSession();
         public string GetGameName();
         public SessionDto NewSession();
+        public SessionDto GetSessionById(int id);
     }
 }

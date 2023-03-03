@@ -1,12 +1,13 @@
-﻿using NavalWar.DTO.GameDto;
+﻿using NavalWar.DAL.Repository.Sessions;
+using NavalWar.DTO.GameDto;
 namespace NavalWar.Business
 {
     public class SessionService : ISessionService
     {
-        static SessionDto? _session;
-        public SessionDto? GetSession()
+        private readonly ISessionRepository _sess;
+        public SessionService(ISessionRepository sess)
         {
-            return _session;
+            _sess = sess;
         }
         public string GetGameName() 
         {
@@ -15,9 +16,21 @@ namespace NavalWar.Business
         }
         public SessionDto NewSession()
         {
-            _session = new SessionDto();
+            var _session = _sess.NewSessionDal();
             return _session;
              
+        }
+        public SessionDto AjoutJoueur(int id_session, PlayerDto playerDto)
+        {
+            var _session = _sess.NewSessionDal();
+            return _session;
+
+        }
+
+        public SessionDto GetSessionById(int id)
+        {
+            var _session = _sess.GetSessionByIdDal(id);
+            return _session;
         }
         static  PlayerDto GetGamePlayer(SessionDto Session ,int playerId)
         {
