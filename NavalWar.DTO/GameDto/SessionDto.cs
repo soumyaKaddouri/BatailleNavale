@@ -37,6 +37,9 @@ namespace NavalWar.DTO.GameDto
 
         public bool isGameFull()
         {
+            if (Players == null )
+                return false;
+
             return Players.Count == 2;
         }
 
@@ -48,6 +51,8 @@ namespace NavalWar.DTO.GameDto
             }
             PlayerDto player= new PlayerDto();
             player.Name = InPlayer.name;
+            if (Players ==null)
+                Players = new List<PlayerDto>();
             Players.Add(player);
         }
         public void AddPLayer(PlayerDto InPlayer)
@@ -56,6 +61,8 @@ namespace NavalWar.DTO.GameDto
             {
                 throw new Exception("Game is full (Max 2 players)");
             }
+            if (Players == null)
+                Players = new List<PlayerDto>();
             Players.Add(InPlayer);
         }
     }
