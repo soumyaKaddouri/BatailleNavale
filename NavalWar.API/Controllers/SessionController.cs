@@ -36,6 +36,7 @@ namespace NavalWar.API.Controllers
             try
             {
                 session.AddPLayerWeb(player);
+                _sess.sauvegarde(session);
             }
             catch(Exception ex)
             {

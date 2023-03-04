@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NavalWar.DTO.GameDto;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
+using System.Text.Json;
 
 namespace NavalWar.DAL.Models
 {
@@ -20,6 +22,15 @@ namespace NavalWar.DAL.Models
             joueurid = 0;
             _playersJson = "";
         }
+        public Session(SessionDto session)
+        {
+            Id = session.Id;
+            GameState = session.GameState;
+            GameName = session.GameName;
+            joueurid = session.joueurid;
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            _playersJson = JsonSerializer.Serialize(session.Players, options);
+        }
         public int GetId()
         {
             return Id;
@@ -29,6 +40,9 @@ namespace NavalWar.DAL.Models
             SessionDto session = new SessionDto();
             session.Id = Id;
             session.GameState = GameState;
+            if (_playersJson != "")
+                session.Players = JsonSerializer.Deserialize<List<PlayerDto>>(_playersJson);
+
             return session;
         }
     }

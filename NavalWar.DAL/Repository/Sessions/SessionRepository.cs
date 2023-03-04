@@ -58,20 +58,10 @@ namespace NavalWar.DAL.Repository.Sessions
             }
         }
 
-        public void AddSession(SessionDto sessionDto)
+        public void AddSession(Session session)
         {
             try
-            {
-                List<Player> players = new List<Player>();
-
-                foreach (PlayerDto p in sessionDto.Players)
-                {
-                    Player player= new Player();  
-
-                    players.Add(player);
-                }
-
-                Session session = new Session();
+            { 
                
                 _context.Sessions.Add(session);
                 _context.SaveChanges();
@@ -82,12 +72,12 @@ namespace NavalWar.DAL.Repository.Sessions
             }
         }
 
-        public void UpdateSession(SessionDto currentSessionDto, SessionDto newSessionDto)
+        public void UpdateSessionDal(Session newSession)
         {
             try
             {
-                RemoveSession(currentSessionDto.Id);
-                AddSession(newSessionDto);
+                RemoveSession(newSession.Id);
+                AddSession(newSession);
             }
             catch (Exception)
             {

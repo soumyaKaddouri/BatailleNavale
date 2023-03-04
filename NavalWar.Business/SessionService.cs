@@ -1,4 +1,5 @@
 ﻿using NavalWar.DAL.Repository.Sessions;
+using NavalWar.DAL.Models;
 using NavalWar.DTO.GameDto;
 namespace NavalWar.Business
 {
@@ -36,6 +37,10 @@ namespace NavalWar.Business
         {
             return Session.Players[playerId];
         }
-        
+        public void sauvegarde(SessionDto session)
+        {
+            var sessionDal = new Session(session);
+            _sess.UpdateSessionDal(sessionDal);
+        }
     }
 }

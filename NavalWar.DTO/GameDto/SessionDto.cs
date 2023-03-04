@@ -1,5 +1,4 @@
 ﻿using NavalWar.DTO.WebDto;
-
 namespace NavalWar.DTO.GameDto
 {
 
@@ -65,6 +64,7 @@ namespace NavalWar.DTO.GameDto
                 Players = new List<PlayerDto>();
             Players.Add(InPlayer);
         }
+        
     }
 }
 
