@@ -30,7 +30,8 @@ namespace NavalWar.DAL.Models
             etat_joueur= player.etat_joueur;
             IdSession= player.IdSession;
             var options = new JsonSerializerOptions { WriteIndented = true };
-            _PlayerBoardsJson = JsonSerializer.Serialize(player.PlayerBoards, options);
+            //if (player.PlayerBoards!=null)
+                //_PlayerBoardsJson = JsonSerializer.Serialize(player.PlayerBoards, options);
         }
         public PlayerDto ToDto()
         {
@@ -40,7 +41,8 @@ namespace NavalWar.DAL.Models
             player.Name = Name;
             player.IdSession = IdSession;
             player.etat_joueur= etat_joueur;
-            player.PlayerBoards = JsonSerializer.Deserialize<GameMapDto>(_PlayerBoardsJson);
+            if (_PlayerBoardsJson!= null) 
+                player.PlayerBoards = JsonSerializer.Deserialize<GameMapDto>(_PlayerBoardsJson);
 
             return player;
         }

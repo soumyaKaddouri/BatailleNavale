@@ -9,7 +9,7 @@ namespace NavalWar.API.Controllers
     public class SessionController : ControllerBase
     {
         private readonly ISessionService _sess;
-        public SessionController( ISessionService sess)
+        public SessionController(ISessionService sess)
         {
             _sess = sess;
         }
@@ -21,7 +21,7 @@ namespace NavalWar.API.Controllers
             var session = _sess.NewSession();
             return Ok(session.GetId());
         }
-        [HttpGet("{id}/Session")] 
+        [HttpGet("{id}/Session")]
         public IActionResult GetSession(int id)
         {
             var session = _sess.GetSessionById(id);
@@ -30,15 +30,17 @@ namespace NavalWar.API.Controllers
 
 
         [HttpPost("/RejoindreUneSession")]
-        public IActionResult AjoutJoueur([FromBody] int id,PlayerWebDto player)
+        public IActionResult AjoutJoueur([FromBody] int id, PlayerWebDto player)
         {
             var session = _sess.GetSessionById(id);
             try
             {
-                session.AddPLayerWeb(player);
+                var player1 = new PlayerWebDto();
+                player1.name = "yass";
+                session.AddPLayerWeb(player1);
                 _sess.sauvegarde(session);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

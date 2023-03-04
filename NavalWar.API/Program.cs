@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ISessionService, SessionService >();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
-builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddDbContext<NavalContext>(options => 
 options.UseSqlServer("Data Source=tcp:navalwarserver.database.windows.net,1433;Initial Catalog=NavalWar.DAL_db;User Id=NavalWar@navalwarserver;Password=Isima2023", builder => builder.EnableRetryOnFailure()));
 //options.UseSqlServer("Server=navalwarsql.mysql.database.azure.com;Database=navalwardatabase;User Id=NavalWar;Password=Isima2023;"));

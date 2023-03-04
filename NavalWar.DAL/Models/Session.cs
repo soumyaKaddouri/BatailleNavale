@@ -29,7 +29,8 @@ namespace NavalWar.DAL.Models
             GameName = session.GameName;
             joueurid = session.joueurid;
             var options = new JsonSerializerOptions { WriteIndented = true };
-            _playersJson = JsonSerializer.Serialize(session.Players, options);
+            //if (session.Players!= null)
+               // _playersJson = JsonSerializer.Serialize(session.Players, options);
         }
         public int GetId()
         {

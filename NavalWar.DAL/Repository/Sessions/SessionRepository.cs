@@ -49,7 +49,7 @@ namespace NavalWar.DAL.Repository.Sessions
         {
             try
             {
-                Session session = _context.Sessions.First(x => x.Id == id);
+                Session session = _context.Sessions.Find(id);
                 return session.ToDto(); 
             }
             catch (Exception)
