@@ -11,9 +11,9 @@ namespace NavalWar.DAL.Repository.Players
     {
         public List<PlayerDto> GetPlayers();
         public PlayerDto GetPlayerByIdDal(int id);
-        public void AddPlayerDal(PlayerDto playerDto);
-        public void UpdatePlayer(PlayerDto currentPlayerDto, PlayerDto newPlayerDto);
-        public void RemovePlayer(int id);
+        public int AddPlayerDal(PlayerDto playerDto);
+        public void UpdatePlayer(PlayerDto newPlayerDto);
+        public void RemovePlayerDal(int id);
     }
 
 }

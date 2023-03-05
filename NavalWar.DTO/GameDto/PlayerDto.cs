@@ -17,8 +17,6 @@ namespace NavalWar.DTO.GameDto
         // Foreign Key
         public int IdSession { get; set; }
 
-        
-        public SessionDto? Sessions { get; set; }
 
         public GameMapDto? PlayerBoards { get; set; }
 

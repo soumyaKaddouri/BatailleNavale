@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NavalWar.Business;
+using NavalWar.DTO.GameDto;
 using NavalWar.DTO.WebDto;
 
 
@@ -9,9 +10,11 @@ namespace NavalWar.API.Controllers
     public class SessionController : ControllerBase
     {
         private readonly ISessionService _sess;
-        public SessionController(ISessionService sess)
+        private readonly IPlayerService _play;
+        public SessionController(ISessionService sess,IPlayerService play)
         {
             _sess = sess;
+            _play = play;
         }
 
         // GET: api/<GameAreaController>
@@ -29,20 +32,25 @@ namespace NavalWar.API.Controllers
         }
 
 
-        [HttpPut("/RejoindreUneSession")]
+        [HttpPost("/RejoindreUneSession")]
         public IActionResult AjoutJoueur([FromBody] int id, string playername)
         {
             var session = _sess.GetSessionById(id);
             try
             {
-                session.AddPLayerWeb(playername);//penser à rajouter player dans la base données
+                PlayerDto player = new PlayerDto();
+                player.Name = playername;
+                player.IdSession = id;
+                session.AddPLayerWeb(player);
+                int idPlayer = _play.AddPlayer(player);
                 _sess.sauvegarde(session);
+                return Ok(idPlayer);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok(session);
+            
         }
 
         // GET api/<GameAreaController>/5

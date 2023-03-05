@@ -76,6 +76,15 @@ namespace NavalWar.Business
                 return Defenseur.Id;
             }
         }
+        public int AddPlayer(PlayerDto player)
+        {
+            return _play.AddPlayerDal(player);
+            
+        }
+        public void DeletePlayer(int id)
+        {
+            _play.RemovePlayerDal(id);
+        }
         /* 
          * do 
          * {

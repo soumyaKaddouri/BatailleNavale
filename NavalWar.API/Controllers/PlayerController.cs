@@ -22,7 +22,21 @@ namespace NavalWar.API.Controllers
             _player = play;
         }
 
-        
+        [HttpGet("/Players/{id}")]
+        public ActionResult GetPlayerby(int id)
+        {
+
+            try
+            {
+                var player = _player.GetPlayerById(id);
+                return View(player);
+            }
+            catch (Exception)
+            {
+                return NotFound("Cannot find any game map");
+            }
+        }
+
 
         [HttpGet("/Players/{id}/GameMaps")]
         public ActionResult GetGameMaps(int id)
@@ -81,6 +95,19 @@ namespace NavalWar.API.Controllers
             else
             {
                 return BadRequest("The game has already begun. You can't delete ships anymore");
+            }
+        }
+        [HttpDelete("/Players/{id}/Delete")]
+        public ActionResult DeletePlayer(int id)
+        {
+            try
+            {
+                DeletePlayer(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }

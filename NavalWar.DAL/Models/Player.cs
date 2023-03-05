@@ -30,8 +30,8 @@ namespace NavalWar.DAL.Models
             etat_joueur= player.etat_joueur;
             IdSession= player.IdSession;
             var options = new JsonSerializerOptions { WriteIndented = true };
-            //if (player.PlayerBoards!=null)
-                //_PlayerBoardsJson = JsonSerializer.Serialize(player.PlayerBoards, options);
+            if (player.PlayerBoards!=null)
+                _PlayerBoardsJson = JsonSerializer.Serialize(player.PlayerBoards, options);
         }
         public PlayerDto ToDto()
         {

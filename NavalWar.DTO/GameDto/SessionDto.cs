@@ -42,14 +42,15 @@ namespace NavalWar.DTO.GameDto
             return Players.Count == 2;
         }
 
-        public void AddPLayerWeb(string InPlayername)
+        public void AddPLayerWeb(PlayerDto player1)
         {
             if (isGameFull())
             {
                 throw new Exception("Game is full (Max 2 players)");
             }
             PlayerDto player= new PlayerDto();
-            player.Name = InPlayername;
+            player.Name = player1.Name;
+            player.IdSession = player1.IdSession;
             if (Players ==null)
                 Players = new List<PlayerDto>();
             Players.Add(player);

@@ -1,4 +1,5 @@
-﻿using NavalWar.DTO.GameDto;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NavalWar.DTO.GameDto;
 
 namespace NavalWar.Business
 {

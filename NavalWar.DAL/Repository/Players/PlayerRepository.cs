@@ -1,5 +1,7 @@
 ﻿using NavalWar.DAL.Models;
 using NavalWar.DTO.GameDto;
+using System.Text.Json;
+
 namespace NavalWar.DAL.Repository.Players
 {
     public class PlayerRepository : IPlayerRepository
@@ -43,27 +45,41 @@ namespace NavalWar.DAL.Repository.Players
             }
         }
 
-        public void AddPlayerDal(PlayerDto playerDto)
+        public int AddPlayerDal(PlayerDto playerDto)
         {
             try
             {
                 Player player = new Player();
                 player.IdSession =playerDto.IdSession;
+                player.Name = playerDto.Name;
                 _context.Players.Add(player);
+                
                 _context.SaveChanges();
+                return player.Id;
             }
             catch (Exception)
             {
                 throw;
             }
+            
         }
 
-        public void UpdatePlayer(PlayerDto currentPlayerDto, PlayerDto newPlayerDto)
+        public void UpdatePlayer(PlayerDto newPlayerDto)
         {
             try
             {
-                RemovePlayer(currentPlayerDto.Id);
-                AddPlayerDal(newPlayerDto);
+                var player = _context.Players.Find(newPlayerDto.Id);
+                if (player != null)
+                {
+                    player.Id = newPlayerDto.Id;
+                    player.Name = newPlayerDto.Name;
+                    player.etat_joueur = newPlayerDto.etat_joueur;
+                    player.IdSession = newPlayerDto.IdSession;
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    if (newPlayerDto.PlayerBoards != null)
+                        player._PlayerBoardsJson= JsonSerializer.Serialize(newPlayerDto.PlayerBoards, options);
+                    _context.SaveChanges();
+                }
             }
             catch (Exception)
             {
@@ -71,7 +87,7 @@ namespace NavalWar.DAL.Repository.Players
             }
         }
 
-        public void RemovePlayer(int id)
+        public void RemovePlayerDal(int id)
         {
             Player player = _context.Players.Find(id);
             if (player != null)

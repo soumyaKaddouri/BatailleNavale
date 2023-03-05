@@ -21,12 +21,6 @@ namespace NavalWar.Business
             return _session;
              
         }
-        public SessionDto AjoutJoueur(int id_session, PlayerDto playerDto)
-        {
-            var _session = _sess.NewSessionDal();
-            return _session;
-
-        }
 
         public SessionDto GetSessionById(int id)
         {

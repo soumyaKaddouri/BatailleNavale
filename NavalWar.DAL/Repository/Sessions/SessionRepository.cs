@@ -17,7 +17,6 @@ namespace NavalWar.DAL.Repository.Sessions
             try
             {
                 Session session = new Session();
-
                 _context.Sessions.Add(session);
                 _context.SaveChanges();
                 return session.ToDto();
