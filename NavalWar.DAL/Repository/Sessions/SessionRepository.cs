@@ -1,5 +1,8 @@
-﻿using NavalWar.DAL.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using NavalWar.DAL.Models;
 using NavalWar.DTO.GameDto;
+using System.Text.Json;
+
 namespace NavalWar.DAL.Repository.Sessions
 {
     public class SessionRepository : ISessionRepository
@@ -72,12 +75,23 @@ namespace NavalWar.DAL.Repository.Sessions
             }
         }
 
-        public void UpdateSessionDal(Session newSession)
+        public void UpdateSessionDal(SessionDto newSession)
         {
             try
             {
-                RemoveSession(newSession.Id);
-                AddSession(newSession);
+                var session = _context.Sessions.Find(newSession.Id);
+                if (session != null)
+                {
+                    session.Id = newSession.Id;
+                    session.GameState = session.GameState;
+                    if (newSession.GameName != null) { session.GameName = newSession.GameName; }
+
+                    session.joueurid = newSession.joueurid;
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    if (newSession.Players != null)
+                        session._playersJson = JsonSerializer.Serialize(newSession.Players, options);
+                    _context.SaveChanges();
+                }
             }
             catch (Exception)
             {

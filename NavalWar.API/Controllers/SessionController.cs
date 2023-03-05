@@ -29,15 +29,13 @@ namespace NavalWar.API.Controllers
         }
 
 
-        [HttpPost("/RejoindreUneSession")]
-        public IActionResult AjoutJoueur([FromBody] int id, PlayerWebDto player)
+        [HttpPut("/RejoindreUneSession")]
+        public IActionResult AjoutJoueur([FromBody] int id, string playername)
         {
             var session = _sess.GetSessionById(id);
             try
             {
-                var player1 = new PlayerWebDto();
-                player1.name = "yass";
-                session.AddPLayerWeb(player1);
+                session.AddPLayerWeb(playername);//penser à rajouter player dans la base données
                 _sess.sauvegarde(session);
             }
             catch (Exception ex)

@@ -3,6 +3,8 @@ using NavalWar.DTO.GameDto;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+
 
 namespace NavalWar.DAL.Models
 {
@@ -26,11 +28,12 @@ namespace NavalWar.DAL.Models
         {
             Id = session.Id;
             GameState = session.GameState;
-            GameName = session.GameName;
+            if (session.GameName!= null) {GameName = session.GameName;}
+
             joueurid = session.joueurid;
             var options = new JsonSerializerOptions { WriteIndented = true };
-            //if (session.Players!= null)
-               // _playersJson = JsonSerializer.Serialize(session.Players, options);
+            if (session.Players!= null)
+                _playersJson = JsonSerializer.Serialize(session.Players, options);
         }
         public int GetId()
         {

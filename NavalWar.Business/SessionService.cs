@@ -39,8 +39,7 @@ namespace NavalWar.Business
         }
         public void sauvegarde(SessionDto session)
         {
-            var sessionDal = new Session(session);
-            _sess.UpdateSessionDal(sessionDal);
+            _sess.UpdateSessionDal(session);
         }
     }
 }

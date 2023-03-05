@@ -9,7 +9,7 @@ namespace NavalWar.DAL.Repository.Sessions
         public SessionDto? GetSessionByIdDal(int id);
         public SessionDto NewSessionDal();
         public void AddSession(Session session);
-        public void UpdateSessionDal(Session newSession);
+        public void UpdateSessionDal(SessionDto newSession);
         public void RemoveSession(int id);
     }
 
