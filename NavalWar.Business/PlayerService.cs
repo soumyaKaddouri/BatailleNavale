@@ -1,7 +1,7 @@
 ﻿using NavalWar.DTO.GameDto;
 using NavalWar.DTO.WebDto;
 using NavalWar.DAL.Repository.Players;
-
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace NavalWar.Business
 {
@@ -60,6 +60,10 @@ namespace NavalWar.Business
                 {
                 }
             }
+            else
+            {
+                throw new Exception("tire hors-porté");
+            }
             List<PlayerDto> list = new List<PlayerDto>();
             list.Add(Attaquant);
             list.Add(Defenseur);
@@ -84,6 +88,10 @@ namespace NavalWar.Business
         public void DeletePlayer(int id)
         {
             _play.RemovePlayerDal(id);
+        }
+        public void UpdatePlayer(PlayerDto player)
+        {
+            _play.UpdatePlayerDal(player);
         }
         /* 
          * do 

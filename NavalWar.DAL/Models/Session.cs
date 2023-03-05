@@ -44,6 +44,8 @@ namespace NavalWar.DAL.Models
             SessionDto session = new SessionDto();
             session.Id = Id;
             session.GameState = GameState;
+            session.GameName = GameName;
+            session.joueurid = joueurid;
             if (_playersJson != "")
                 session.Players = JsonSerializer.Deserialize<List<PlayerDto>>(_playersJson);
 

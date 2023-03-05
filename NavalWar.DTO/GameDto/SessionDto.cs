@@ -51,6 +51,7 @@ namespace NavalWar.DTO.GameDto
             PlayerDto player= new PlayerDto();
             player.Name = player1.Name;
             player.IdSession = player1.IdSession;
+            player.PlayerBoards = player1.PlayerBoards;
             if (Players ==null)
                 Players = new List<PlayerDto>();
             Players.Add(player);

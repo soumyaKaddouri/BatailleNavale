@@ -5,6 +5,7 @@ using NavalWar.Business;
 using NavalWar.DTO.WebDto;
 using NavalWar.DAL.Repository.Players;
 using NavalWar.DAL.Repository.Sessions;
+using System.Collections.Generic;
 
 namespace NavalWar.API.Controllers
 {
@@ -17,9 +18,11 @@ namespace NavalWar.API.Controllers
 
         SessionDto gameArea = new SessionDto();
         private readonly IPlayerService _player;
-        public PlayerController(IPlayerService play)
+        private readonly ISessionService _sess;
+        public PlayerController(IPlayerService play, ISessionService sess)
         {
             _player = play;
+            _sess = sess;
         }
 
         [HttpGet("/Players/{id}")]
@@ -74,7 +77,34 @@ namespace NavalWar.API.Controllers
                 return BadRequest("The game has already begun. You can't add more ships");
             }
         }
-
+        [HttpPut("/Players/{id}/Shoot")]
+        public ActionResult Shoot(int id, int x, int y)
+        {
+            var player = _player.GetPlayerById(id);
+            var session = _sess.GetSessionById(player.IdSession);
+            if (session.joueurid == id)
+            {
+                List<PlayerDto> listplay = session.Players;
+                if (listplay[1].Id == id)
+                {
+                    session.Players = _player.Shoot(listplay[0], listplay[1], x, y);
+                    session.joueurid = _player.prochainjoueur(listplay[0], listplay[1], x, y);
+                }
+                else
+                {
+                    session.Players = _player.Shoot(listplay[1], listplay[0], x, y);
+                    session.joueurid = _player.prochainjoueur(listplay[1], listplay[0], x, y);
+                }
+                _sess.sauvegarde(session);
+                _player.UpdatePlayer(session.Players[0]);
+                _player.UpdatePlayer(session.Players[1]);
+                return Ok(session);
+            }
+            else
+            {
+                return BadRequest("Ce n'est pas à ton tour");
+            }
+        }
 
         [HttpPost("/GameMaps/{id}/Delete_Ship")]
         public ActionResult Delete_Ship(int id, [FromBody] GetbateauDto r)

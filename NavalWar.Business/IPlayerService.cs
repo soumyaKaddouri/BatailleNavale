@@ -15,5 +15,7 @@ namespace NavalWar.Business
         public int prochainjoueur(PlayerDto Attaquant, PlayerDto Defenseur, int i, int j);
 
         public void DeletePlayer(int Id);
+
+        public void UpdatePlayer(PlayerDto Player);
     }
 }

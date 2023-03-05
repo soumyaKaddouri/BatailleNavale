@@ -84,13 +84,13 @@ namespace NavalWar.DAL.Repository.Sessions
                     session.Id = newSession.Id;
                     session.GameState = session.GameState;
                     if (newSession.GameName != null) { session.GameName = newSession.GameName; }
-
                     session.joueurid = newSession.joueurid;
                     var options = new JsonSerializerOptions { WriteIndented = true };
                     if (newSession.Players != null)
                         session._playersJson = JsonSerializer.Serialize(newSession.Players, options);
                     _context.SaveChanges();
                 }
+                
             }
             catch (Exception)
             {

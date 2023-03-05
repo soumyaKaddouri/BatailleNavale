@@ -24,11 +24,17 @@ namespace NavalWar.API.Controllers
             var session = _sess.NewSession();
             return Ok(session.GetId());
         }
-        [HttpGet("{id}/Session")]
+        [HttpGet("Sessions/{id}")]
         public IActionResult GetSession(int id)
         {
             var session = _sess.GetSessionById(id);
             return Ok(session);
+        }
+        [HttpGet("Sessions/{id}/joueuractif")]
+        public IActionResult Getjoueur(int id)
+        {
+            var session = _sess.GetSessionById(id);
+            return Ok(session.joueurid);
         }
 
 
@@ -38,11 +44,15 @@ namespace NavalWar.API.Controllers
             var session = _sess.GetSessionById(id);
             try
             {
+                
                 PlayerDto player = new PlayerDto();
                 player.Name = playername;
                 player.IdSession = id;
+                player.PlayerBoards = new GameMapDto();
                 session.AddPLayerWeb(player);
                 int idPlayer = _play.AddPlayer(player);
+                if (session.joueurid ==0)
+                    session.joueurid = idPlayer;
                 _sess.sauvegarde(session);
                 return Ok(idPlayer);
             }
@@ -76,6 +86,7 @@ namespace NavalWar.API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
         }
     }
 }

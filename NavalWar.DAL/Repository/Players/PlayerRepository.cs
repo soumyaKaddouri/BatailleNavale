@@ -52,8 +52,10 @@ namespace NavalWar.DAL.Repository.Players
                 Player player = new Player();
                 player.IdSession =playerDto.IdSession;
                 player.Name = playerDto.Name;
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                if (playerDto.PlayerBoards != null)
+                    player._PlayerBoardsJson = JsonSerializer.Serialize(playerDto.PlayerBoards, options);
                 _context.Players.Add(player);
-                
                 _context.SaveChanges();
                 return player.Id;
             }
@@ -64,7 +66,7 @@ namespace NavalWar.DAL.Repository.Players
             
         }
 
-        public void UpdatePlayer(PlayerDto newPlayerDto)
+        public void UpdatePlayerDal(PlayerDto newPlayerDto)
         {
             try
             {
