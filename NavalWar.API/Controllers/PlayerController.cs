@@ -6,6 +6,7 @@ using NavalWar.DTO.WebDto;
 using NavalWar.DAL.Repository.Players;
 using NavalWar.DAL.Repository.Sessions;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 
 namespace NavalWar.API.Controllers
 {
@@ -57,14 +58,16 @@ namespace NavalWar.API.Controllers
         }
         //OK
         [HttpPost("/GameMaps/{id}/Add_Ship")]
-        public ActionResult Add_Ship(int id, [FromBody] GetbateauDto r)
+        public ActionResult Add_Ship(int id,int x, int y , int direction, int type)
         {
-            if (gameArea.GetGameState() != 1)
+            if (_player.GetPlayerById(id).etat_joueur != 1)
             {
+                GetbateauDto r =new GetbateauDto(x,y,direction,type);
                 bool result = _player.GetPlayerById(id).GetPlayerBoards().GetShipPositionsBoard().AddShipToGrid(r);
-
+                
                 if (result)
                 {
+                    _player.UpdatePlayer(_player.GetPlayerById(id));
                     return Ok();
                 }
                 else

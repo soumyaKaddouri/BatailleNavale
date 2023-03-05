@@ -49,10 +49,20 @@ namespace NavalWar.API.Controllers
                 player.Name = playername;
                 player.IdSession = id;
                 player.PlayerBoards = new GameMapDto();
-                session.AddPLayerWeb(player);
                 int idPlayer = _play.AddPlayer(player);
-                if (session.joueurid ==0)
+                if (session.joueurid == 0)
+                {
                     session.joueurid = idPlayer;
+                    session.Players = new List<PlayerDto>();
+                    session.Players.Add(player);
+                    session.Players[0].Id = idPlayer;
+                }
+                else
+                {
+                    session.Players.Add(player);
+                    session.Players[1].Id = idPlayer;
+                }    
+                
                 _sess.sauvegarde(session);
                 return Ok(idPlayer);
             }

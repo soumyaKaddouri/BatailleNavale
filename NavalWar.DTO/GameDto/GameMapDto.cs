@@ -2,7 +2,6 @@ namespace NavalWar.DTO.GameDto
 {
     public class GameMapDto
     {
-        public int Id { get; set; }
         public MapDto ShipPositionsBoard { get; set; }
         public MapDto ShotsBoard { get; set; }
 
