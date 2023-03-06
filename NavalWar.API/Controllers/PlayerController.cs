@@ -26,8 +26,8 @@ namespace NavalWar.API.Controllers
             _sess = sess;
         }
 
-        [HttpGet("/Players/{id}")]
-        public ActionResult GetPlayerby(int id)
+        [HttpGet("/getPlayers/{id}")]
+        public ActionResult GetPlayerBy(int id)
         {
 
             try
@@ -37,7 +37,7 @@ namespace NavalWar.API.Controllers
             }
             catch (Exception)
             {
-                return NotFound("Cannot find any game map");
+                return NotFound("Cannot find players");
             }
         }
 
@@ -47,7 +47,7 @@ namespace NavalWar.API.Controllers
         {
             GameMapDto gameMaps = new GameMapDto();
             try
-            { 
+            {  
                 gameMaps = _player.GetGameMap(id);
                 return View(gameMaps);
             }
@@ -56,7 +56,23 @@ namespace NavalWar.API.Controllers
                 return NotFound("Cannot find any game map");
             }
         }
-        //OK
+        [HttpPut("/Players/{id}/prêt")]
+        public ActionResult SetEtatJoueur(int id)
+        {
+            
+            try
+            {
+                var player = _player.GetPlayerById(id);
+                player.etat_joueur = 1;
+                _player.UpdatePlayer(player);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound("Cannot find any player");
+            }
+        }
+
         [HttpPost("/GameMaps/{id}/Add_Ship")]
         public ActionResult Add_Ship(int id,int x, int y , int direction, int type)
         {
@@ -85,35 +101,43 @@ namespace NavalWar.API.Controllers
         {
             var player = _player.GetPlayerById(id);
             var session = _sess.GetSessionById(player.IdSession);
-            if (session.joueurid == id)
+            if (session.GameState == 1)
             {
-                List<PlayerDto> listplay = session.Players;
-                if (listplay[1].Id == id)
+                if (session.joueurid == id)
                 {
-                    session.Players = _player.Shoot(listplay[0], listplay[1], x, y);
-                    session.joueurid = _player.prochainjoueur(listplay[0], listplay[1], x, y);
+                    List<PlayerDto> listplay = session.Players;
+                    if (listplay[1].Id == id)
+                    {
+                        session.Players = _player.Shoot(listplay[0], listplay[1], x, y);
+                        session.joueurid = _player.prochainjoueur(listplay[0], listplay[1], x, y);
+                    }
+                    else
+                    {
+                        session.Players = _player.Shoot(listplay[1], listplay[0], x, y);
+                        session.joueurid = _player.prochainjoueur(listplay[1], listplay[0], x, y);
+                    }
+                    _sess.sauvegarde(session);
+                    _player.UpdatePlayer(session.Players[0]);
+                    _player.UpdatePlayer(session.Players[1]);
+                    return Ok(session);
                 }
                 else
                 {
-                    session.Players = _player.Shoot(listplay[1], listplay[0], x, y);
-                    session.joueurid = _player.prochainjoueur(listplay[1], listplay[0], x, y);
+                    return BadRequest("Ce n'est pas à ton tour");
                 }
-                _sess.sauvegarde(session);
-                _player.UpdatePlayer(session.Players[0]);
-                _player.UpdatePlayer(session.Players[1]);
-                return Ok(session);
             }
             else
             {
-                return BadRequest("Ce n'est pas à ton tour");
+                return BadRequest("la partie n'a pas commencé");
             }
         }
 
         [HttpPost("/GameMaps/{id}/Delete_Ship")]
-        public ActionResult Delete_Ship(int id, [FromBody] GetbateauDto r)
+        public ActionResult Delete_Ship(int id, int x, int y, int direction, int type)
         {
             if (gameArea.GetGameState() != 1)
             {
+                GetbateauDto r = new GetbateauDto(x, y, direction, type);
                 bool result = gameArea.GetPlayers()[id].GetPlayerBoards().GetShipPositionsBoard().RemoveShipFromGrid(r);
 
                 if (result)

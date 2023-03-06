@@ -44,27 +44,34 @@ namespace NavalWar.API.Controllers
             var session = _sess.GetSessionById(id);
             try
             {
-                
-                PlayerDto player = new PlayerDto();
-                player.Name = playername;
-                player.IdSession = id;
-                player.PlayerBoards = new GameMapDto();
-                int idPlayer = _play.AddPlayer(player);
-                if (session.joueurid == 0)
+                if (session.Players != null && session.Players.Count() == 2)
                 {
-                    session.joueurid = idPlayer;
-                    session.Players = new List<PlayerDto>();
-                    session.Players.Add(player);
-                    session.Players[0].Id = idPlayer;
+                        return BadRequest("trop de joueur: max 2");
                 }
                 else
                 {
-                    session.Players.Add(player);
-                    session.Players[1].Id = idPlayer;
-                }    
+                    PlayerDto player = new PlayerDto();
+                    player.Name = playername;
+                    player.IdSession = id;
+                    player.PlayerBoards = new GameMapDto();
+                    int idPlayer = _play.AddPlayer(player);
+                    if (session.joueurid == 0)
+                    {
+                        session.joueurid = idPlayer;
+                        session.Players = new List<PlayerDto>();
+                        session.Players.Add(player);
+                        session.Players[0].Id = idPlayer;
+                    }
+                    else
+                    {
+                        session.Players.Add(player);
+                        session.Players[1].Id = idPlayer;
+                    }
+
+                    _sess.sauvegarde(session);
+                    return Ok(idPlayer);
+                }
                 
-                _sess.sauvegarde(session);
-                return Ok(idPlayer);
             }
             catch (Exception ex)
             {
@@ -72,7 +79,31 @@ namespace NavalWar.API.Controllers
             }
             
         }
+        [HttpPost("Sessions/{id}/ChangeGameState")]
+        public IActionResult SetGameState([FromBody] int id, string playername)
+        {
+            var session = _sess.GetSessionById(id);
+            try
+            {
 
+                if (session.Players[0].etat_joueur == 1 && session.Players[1].etat_joueur == 1)
+                {
+                    session.GameState = 1;
+                    _sess.sauvegarde(session);
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Tous les joueurs ne sont pas prêt");
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
         // GET api/<GameAreaController>/5
         [HttpGet("{id}")]
         public string Get(int id)
