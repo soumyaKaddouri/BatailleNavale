@@ -36,7 +36,7 @@ namespace NavalWar.DAL.Repository.Players
         {
             try
             {
-                var player = _context.Players.FirstOrDefault(player => player.Id == id);
+                var player = _context.Players.Find(id);
                 return player.ToDto();
             }
             catch (Exception)

@@ -33,7 +33,7 @@ namespace NavalWar.API.Controllers
             try
             {
                 var player = _player.GetPlayerById(id);
-                return View(player);
+                return Ok(player);
             }
             catch (Exception)
             {
@@ -76,17 +76,17 @@ namespace NavalWar.API.Controllers
         [HttpPost("/GameMaps/{id}/Add_Ship")]
         public ActionResult Add_Ship(int id,int x, int y , int direction, int type)
         {
-            if (_player.GetPlayerById(id).etat_joueur != 1)
+            var player = _player.GetPlayerById(id);
+            if (player.etat_joueur != 1)
             {
                 GetbateauDto r =new GetbateauDto(x,y,direction,type);
-                bool result = _player.GetPlayerById(id).GetPlayerBoards().GetShipPositionsBoard().AddShipToGrid(r);
-                
-                if (result)
+                try
                 {
-                    _player.UpdatePlayer(_player.GetPlayerById(id));
-                    return Ok();
+                     player = _player.AddShipToGrid(player, r);
+                    _player.UpdatePlayer(player);
+                    return Ok(player);
                 }
-                else
+                catch
                 {
                     return BadRequest("Ship cannot be added to the position given");
                 }
@@ -129,29 +129,6 @@ namespace NavalWar.API.Controllers
             else
             {
                 return BadRequest("la partie n'a pas commencé");
-            }
-        }
-
-        [HttpPost("/GameMaps/{id}/Delete_Ship")]
-        public ActionResult Delete_Ship(int id, int x, int y, int direction, int type)
-        {
-            if (gameArea.GetGameState() != 1)
-            {
-                GetbateauDto r = new GetbateauDto(x, y, direction, type);
-                bool result = gameArea.GetPlayers()[id].GetPlayerBoards().GetShipPositionsBoard().RemoveShipFromGrid(r);
-
-                if (result)
-                {
-                    return Ok();
-                }
-                else
-                {
-                    return BadRequest("Ship cannot be removed from the position given");
-                }
-            }
-            else
-            {
-                return BadRequest("The game has already begun. You can't delete ships anymore");
             }
         }
         [HttpDelete("/Players/{id}/Delete")]

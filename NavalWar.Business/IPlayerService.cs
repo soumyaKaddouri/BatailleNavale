@@ -17,5 +17,11 @@ namespace NavalWar.Business
         public void DeletePlayer(int Id);
 
         public void UpdatePlayer(PlayerDto Player);
+
+        public PlayerDto PlaceShip(PlayerDto player, int startOffsetX, int startOffsetY, int shipLength, int direction);
+
+        public PlayerDto AddShipToGrid(PlayerDto player, GetbateauDto r);
+
+        public bool TestShipPlacement(PlayerDto player, int startOffsetX, int startOffsetY, int shipLength, int direction);
     }
 }
