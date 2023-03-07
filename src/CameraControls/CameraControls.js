@@ -30,21 +30,22 @@ export const CameraControls = () => {
     }
   };
 
-  useFrame((state, delta) => {
-    // Update the camera's polar angle
-    //state.camera.position.setFromSphericalCoords(1, polarAngle, 0);
-    state.camera.lookAt(0, 0, 0);
+  // useFrame((state, delta) => {
+  //   // Update the camera's polar angle
+  //   //state.camera.position.setFromSphericalCoords(1, polarAngle, 0);
+  //   //state.camera.lookAt(10, 0, 0);
 
-    ref.current.update();
-  });
+  //   ref.current.update();
+  // });
 
   return (
     <>
       <OrbitControls
         ref={ref}
-        target={[0, 0, 0]}
-        minDistance={0}
-        enableRotate={true}
+        target={[0, 3, 0]}
+        // rotation={new THREE.Euler(Math.PI / 2, 0, 0)}
+        minDistance={10}
+        enableRotate={false}
         enableZoom={false}
         args={[state.camera, state.gl.domElement]}
       />

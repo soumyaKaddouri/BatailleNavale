@@ -6,7 +6,7 @@ import { TextureLoader } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { GameContext } from "../GameContext/Game-context";
 
-export const BoxItem = ({i, j}) => {
+export const BoxItem = ({i, j, isLeft}) => {
     const [colorCases, setColorCases] = useState(0x3ac9fc);
     const [texture, setTexture] = useState(null);
     const [exploded, setExploded] = useState(false);
@@ -28,32 +28,32 @@ export const BoxItem = ({i, j}) => {
     return (
         <Box
             ref={meshRef}
-            onPointerEnter={(event) => { (!game.hoverOverShip && setColorCases(0xfc1c49)) }}
+            onPointerEnter={(event) => {
+                (isLeft  && setColorCases(0xfc1c49));
+                var copy = { ...game , pointerPosition: { x: i - 4, y: j - 4, z: 0.2 }};
+                //copy.pointerPosition = { x: i - 4, y: j - 4, z: 0.2 };
+                setGame(copy);
+                //console.log(game.pointerPosition);
+            }}
             onPointerLeave={(event) => { setColorCases(0x3ac9fc) }}
             onClick={() => {
                 // Change the texture when the box is clicked
-                (!game.hoverOverShip && setTexture(newTexture));
+                (setTexture(newTexture));
                 //setExploded(true);
                 //setDestroyed(true);
             }}
-            position={new THREE.Vector3(i - 2, j - 2, 0)}
+            position={new THREE.Vector3(i - 4, j - 4, 0)}
             key={`${i}-${j}`}>
             <boxGeometry
-              args={[0.42, 0.42, 0.05]}>
+              args={[0.82, 0.82, 0.1]}>
             </boxGeometry>
             <meshBasicMaterial color={colorCases}/>
-            {texture && <meshBasicMaterial attach="material" map={texture} />}
+            {isLeft && texture && <meshBasicMaterial attach="material" map={texture} />}
             {exploded === true &&
                 <mesh
                     scale={[0.9, 0.9, 0.9]}
                 >
                 <primitive object={explosionTexture.scene} />
-            </mesh>}
-            {destroyed === true &&
-                <mesh
-                    scale={[0.1, 0.2, 0.2]}
-                >
-                <primitive object={destructionTexture.scene} />
             </mesh>}
           </Box >
     );

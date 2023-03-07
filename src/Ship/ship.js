@@ -13,19 +13,16 @@ export const Ship = ({position_, rotation_, scale, model}) => {
 
   const [game, setGame] = useContext(GameContext);
 
-  const { viewport } = useThree()
-  // viewport = canvas in 3d units (meters)
-
   const ref = useRef()
-  useFrame(({ mouse }) => {
+  useFrame(() => {
     //console.log(viewport.width, viewport.height);
     if (clicked) {
-      console.log(viewport);
-      const _x = (mouse.x * viewport.width);
-      const _y = (mouse.y * viewport.height);
-      setPosition({ x: _x, y: _y, z: 0.01 });
+      //console.log(viewport);
+      const _x = game.pointerPosition.x;
+      const _y = game.pointerPosition.y;
+      setPosition({ x: _x, y: _y, z: 0.2 });
     }
-    ref.current.position.set(Math.min(Math.max(parseInt(position.x), -2), 2.5), Math.min(Math.max(parseInt(position.y), -2), 2.5), 0.01);
+    ref.current.position.set(Math.min(Math.max(parseInt(position.x), -4 + 6 ), 4 + 6), Math.min(Math.max(parseInt(position.y), -4 + 3), 4 + 3), 0.2);
     ref.current.rotation.set(rotation.x, rotation.y, rotation.z);
     //console.log("position : ", position);
   })
@@ -33,16 +30,6 @@ export const Ship = ({position_, rotation_, scale, model}) => {
     return (
       <mesh
         ref={ref}
-        onPointerEnter={(event) => {
-          var copy = { ...game };
-          copy.hoverOverShip = true;
-          setGame(copy);
-        }}
-        onPointerLeave={(event) => {
-          var copy = { ...game };
-          copy.hoverOverShip = false;
-          setGame(copy);
-        }}
         onClick={(e) => {
           setClicked(!clicked);
         }}

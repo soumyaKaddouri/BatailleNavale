@@ -1,0 +1,1 @@
+if we hover over a box, the box sends its position, and we set the position of the ship to the position of that box

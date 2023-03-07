@@ -5,18 +5,22 @@ import { CameraControls } from './CameraControls/CameraControls';
 import { Box } from '@react-three/drei';
 import { GameContext } from './GameContext/Game-context';
 import { useContext, useEffect, useState } from 'react';
+import { GameCanvas } from './GameCanvas/Game-canvas';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { StartingPage } from './StartingPage/components/starting-page';
 
 function App() {
-  const [game, setGame] = useState({hoverOverShip:false});
+  const [game, setGame] = useState({pointerPosition:{x:0, y:0, z:0.2}});
 
   return (
     <>
       <GameContext.Provider value={[game, setGame]}>
-      <Canvas>
-        <pointLight position={[0, 0, 4]} />
-        <SceneManager />
-        <CameraControls />
-        </Canvas>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<GameCanvas/>} />
+            <Route path='/start' element={<StartingPage/>} />
+          </Routes>
+        </BrowserRouter>
       </GameContext.Provider>
     </>
   );

@@ -10,21 +10,16 @@ import { BoxItem } from '../BoxItem/boxItem';
 
 export const SceneManager = () => {
 
-  const [hoverOverShip, setHoverOverShip] = useState(false); 
-
   const [model1, setModel1] = useState();
   const [model2, setModel2] = useState();
   const [model3, setModel3] = useState();
   const [model4, setModel4] = useState();
-
-  const range = (start, stop, step) =>
-    Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
   
   
 
   const position1 = new THREE.Vector3(1, 2, 0.2);
   const position2 = new THREE.Vector3(-1, -2, 0.2);
-  const position3 = new THREE.Vector3(3*0.5, 2*0.5, 0.01);
+  const position3 = new THREE.Vector3(3, 2, 0.01);
   const position4 = new THREE.Vector3(-3, -3, 0.2);
 
   const rotation1 = new THREE.Euler(Math.PI / 2, Math.PI / 2, 0);
@@ -34,7 +29,7 @@ export const SceneManager = () => {
 
   const scale1 = { x: 0.001, y: 0.001, z: 0.001 };
   const scale2 = { x: 0.04, y: 0.04, z: 0.03 };
-  const scale3 = { x: 0.4*0.5, y: 0.4*0.5, z: 0.22*0.5 };
+  const scale3 = { x: 0.4, y: 0.4, z: 0.22 };
   const scale4 = { x: 0.4, y: 0.4, z: 0.2 };
 
   useEffect(() => {
@@ -54,9 +49,15 @@ export const SceneManager = () => {
           {/* <Ship position_={position4} rotation_={rotation4} scale={scale4} model={model4} /> */}
         </>
       ) : null}
-      {Array.from({ length: 4.5/0.5 + 1 }, (_, i) =>
-        Array.from({ length: 4.5/0.5 + 1}, (_, j) => (
-          <BoxItem i={i*0.5} j={j*0.5} key={`${i*0.5}-${j*0.5}`}/>
+      {Array.from({ length: 9 }, (_, i) =>
+        Array.from({ length: 9 }, (_, j) => (
+          <BoxItem i={i - 5} j={j + 3} key={`${i}-${j}`} isLeft={true} />
+        ))
+      )}
+
+      {Array.from({ length: 9 }, (_, i) =>
+        Array.from({ length: 9 }, (_, j) => (
+          <BoxItem i={i+6} j={j+3} key={`${i}-${j}`} isLeft={false}/>
         ))
       )}
     </>
