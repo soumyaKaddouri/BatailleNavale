@@ -11,6 +11,7 @@ namespace NavalWar.API.Controllers
     {
         private readonly ISessionService _sess;
         private readonly IPlayerService _play;
+        
         public SessionController(ISessionService sess,IPlayerService play)
         {
             _sess = sess;
@@ -24,19 +25,20 @@ namespace NavalWar.API.Controllers
             var session = _sess.NewSession();
             return Ok(session.GetId());
         }
+
         [HttpGet("Sessions/{id}")]
         public IActionResult GetSession(int id)
         {
             var session = _sess.GetSessionById(id);
             return Ok(session);
         }
+
         [HttpGet("Sessions/{id}/joueuractif")]
         public IActionResult Getjoueur(int id)
         {
             var session = _sess.GetSessionById(id);
             return Ok(session.joueurid);
         }
-
 
         [HttpPost("/RejoindreUneSession")]
         public IActionResult AjoutJoueur([FromBody] int id, string playername)
@@ -51,10 +53,13 @@ namespace NavalWar.API.Controllers
                 else
                 {
                     PlayerDto player = new PlayerDto();
+                    
                     player.Name = playername;
                     player.IdSession = id;
                     player.PlayerBoards = new GameMapDto();
+                    
                     int idPlayer = _play.AddPlayer(player);
+                    
                     if (session.joueurid == 0)
                     {
                         session.joueurid = idPlayer;
@@ -70,15 +75,14 @@ namespace NavalWar.API.Controllers
 
                     _sess.sauvegarde(session);
                     return Ok(idPlayer);
-                }
-                
+                }        
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
         }
+
         [HttpPost("Sessions/{id}/ChangeGameState")]
         public IActionResult SetGameState([FromBody] int id, string playername)
         {
@@ -102,8 +106,8 @@ namespace NavalWar.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
+
         // GET api/<GameAreaController>/5
         [HttpGet("{id}")]
         public string Get(int id)

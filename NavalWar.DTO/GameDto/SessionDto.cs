@@ -15,10 +15,12 @@ namespace NavalWar.DTO.GameDto
         {
             return Id;
         }
+
         public int GetActivePlayer()
         {
             return joueurid;
         }
+
         public void SetId(int InId)
         {
             Id = InId;
@@ -42,31 +44,37 @@ namespace NavalWar.DTO.GameDto
             return Players.Count == 2;
         }
 
-        public void AddPLayerWeb(PlayerDto player1)
+        public void AddPlayerWeb(PlayerDto playerWeb)
         {
             if (isGameFull())
             {
                 throw new Exception("Game is full (Max 2 players)");
             }
-            PlayerDto player= new PlayerDto();
-            player.Name = player1.Name;
-            player.IdSession = player1.IdSession;
-            player.PlayerBoards = player1.PlayerBoards;
-            if (Players ==null)
+
+            PlayerDto player = new PlayerDto();
+            
+            player.Name = playerWeb.Name;
+            player.IdSession = playerWeb.IdSession;
+            player.PlayerBoards = playerWeb.PlayerBoards;
+            
+            if (Players == null)
                 Players = new List<PlayerDto>();
+            
             Players.Add(player);
         }
+
         public void AddPLayer(PlayerDto InPlayer)
         {
             if (isGameFull())
             {
                 throw new Exception("Game is full (Max 2 players)");
             }
+            
             if (Players == null)
                 Players = new List<PlayerDto>();
+            
             Players.Add(InPlayer);
         }
         
     }
 }
-

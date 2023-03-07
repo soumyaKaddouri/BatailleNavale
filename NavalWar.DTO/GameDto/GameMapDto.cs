@@ -26,11 +26,5 @@ namespace NavalWar.DTO.GameDto
         {
             return ShotsBoard;
         }
-
-        /*static GameMapDto MajMapAttaques(GameMapDto GM, MapDto MapAttaque)
-        {
-            GM.ShotsBoard = MapAttaque;
-            return GM;
-        }*/
     }
 }

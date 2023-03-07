@@ -7,6 +7,7 @@ namespace NavalWar.DAL.Repository.Players
     public class PlayerRepository : IPlayerRepository
     {
         public readonly NavalContext _context;
+        
         public PlayerRepository(NavalContext context)
         {
             _context = context;
@@ -50,13 +51,18 @@ namespace NavalWar.DAL.Repository.Players
             try
             {
                 Player player = new Player();
+                
                 player.IdSession =playerDto.IdSession;
                 player.Name = playerDto.Name;
+                
                 var options = new JsonSerializerOptions { WriteIndented = true };
+                
                 if (playerDto.PlayerBoards != null)
                     player._PlayerBoardsJson = JsonSerializer.Serialize(playerDto.PlayerBoards, options);
+                
                 _context.Players.Add(player);
                 _context.SaveChanges();
+                
                 return player.Id;
             }
             catch (Exception)
@@ -71,15 +77,19 @@ namespace NavalWar.DAL.Repository.Players
             try
             {
                 var player = _context.Players.Find(newPlayerDto.Id);
+                
                 if (player != null)
                 {
                     player.Id = newPlayerDto.Id;
                     player.Name = newPlayerDto.Name;
                     player.etat_joueur = newPlayerDto.etat_joueur;
                     player.IdSession = newPlayerDto.IdSession;
+                    
                     var options = new JsonSerializerOptions { WriteIndented = true };
+                    
                     if (newPlayerDto.PlayerBoards != null)
                         player._PlayerBoardsJson= JsonSerializer.Serialize(newPlayerDto.PlayerBoards, options);
+                    
                     _context.SaveChanges();
                 }
             }
@@ -92,6 +102,7 @@ namespace NavalWar.DAL.Repository.Players
         public void RemovePlayerDal(int id)
         {
             Player player = _context.Players.Find(id);
+            
             if (player != null)
             {
                 _context.Players.Remove(player);

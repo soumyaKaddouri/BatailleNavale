@@ -24,28 +24,37 @@ namespace NavalWar.DAL.Models
             joueurid = 0;
             _playersJson = "";
         }
+
         public Session(SessionDto session)
         {
             Id = session.Id;
             GameState = session.GameState;
-            if (session.GameName!= null) {GameName = session.GameName;}
+            
+            if (session.GameName != null)
+                GameName = session.GameName;
 
             joueurid = session.joueurid;
+
             var options = new JsonSerializerOptions { WriteIndented = true };
-            if (session.Players!= null)
+            
+            if (session.Players != null)
                 _playersJson = JsonSerializer.Serialize(session.Players, options);
         }
+
         public int GetId()
         {
             return Id;
         }
+
         public SessionDto ToDto()
         {
             SessionDto session = new SessionDto();
+            
             session.Id = Id;
             session.GameState = GameState;
             session.GameName = GameName;
             session.joueurid = joueurid;
+            
             if (_playersJson != "")
                 session.Players = JsonSerializer.Deserialize<List<PlayerDto>>(_playersJson);
 

@@ -10,8 +10,9 @@ namespace NavalWar.DTO.WebDto
     {
         public int startOffsetX;
         public int startOffsetY;
-        public int direction ;//up,down,Left,Right
-        public int shipLength;//longueur
+        public int direction ;      //up,down,Left,Right
+        public int shipLength;      //longueur
+        
         public GetbateauDto(int x, int y, int direction, int type)
         {
             this.startOffsetX = x;
