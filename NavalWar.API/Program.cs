@@ -8,6 +8,18 @@ using NavalWar.DAL.Repository.Players;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AutoCorsPolicy",
+        policy =>
+        {
+            policy.SetIsOriginAllowed(origin => true)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+        });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -33,6 +45,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AutoCorsPolicy");
 
 app.UseAuthorization();
 
