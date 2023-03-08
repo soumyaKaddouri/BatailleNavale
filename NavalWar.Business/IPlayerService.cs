@@ -23,5 +23,7 @@ namespace NavalWar.Business
         public PlayerDto AddShipToGrid(PlayerDto player, GetbateauDto r);
 
         public bool TestShipPlacement(PlayerDto player, int startOffsetX, int startOffsetY, int shipLength, int direction);
+
+        public bool TestGagné(PlayerDto Defenseur);
     }
 }

@@ -89,11 +89,19 @@ namespace NavalWar.API.Controllers
                     {
                         session.Players = _player.Shoot(listplay[0], listplay[1], x, y);
                         session.joueurid = _player.prochainjoueur(listplay[0], listplay[1], x, y);
+                        if (_player.TestGagné(session.Players[1]))
+                        {
+                            session.GameState= -1;
+                        }
                     }
                     else
                     {
                         session.Players = _player.Shoot(listplay[1], listplay[0], x, y);
                         session.joueurid = _player.prochainjoueur(listplay[1], listplay[0], x, y);
+                        if (_player.TestGagné(session.Players[0]))
+                        {
+                            session.GameState = -1;
+                        }
                     }
                     _sess.sauvegarde(session);
                     _player.UpdatePlayer(session.Players[0]);
@@ -105,9 +113,13 @@ namespace NavalWar.API.Controllers
                     return BadRequest("Ce n'est pas à ton tour");
                 }
             }
-            else
+            else if (session.GameState == -1)
             {
-                return BadRequest("la partie n'a pas commencé");
+                return Ok(session.joueurid + "a gagné la partie la partie n'a pas commencé");
+            }
+            else
+            { 
+                return BadRequest("la partie n'a pas commencé")
             }
         }
 

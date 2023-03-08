@@ -229,15 +229,26 @@ namespace NavalWar.Business
 
             return result;
         }
-        /* 
-         * do 
-         * {
-         * shoot
-         * savecontext()
-         * verifetatgrillebateau() change gameState
-         * }
-         * while ActivePlayer==prochainjoueur && gameState==1
-         * ActivePlayer=prochainjoueur
-         */
+        public bool TestGagné(PlayerDto Defenseur)
+        {
+            MapDto mapship = Defenseur.PlayerBoards.ShipPositionsBoard;
+            for (int k = 0; k < mapship.Width; k++)
+            {
+                for (int j = 0; j < mapship.Height; j++)
+                {
+                    if (mapship.Grid[k][j] == 1)
+                    {
+                        return false;//le joueur attaquant n'a pas encore gagné
+                    }
+                    
+                    
+                        
+                    
+                }
+            }
+            
+            return true;
+        }
+        
     }
 }

@@ -40,16 +40,25 @@ namespace NavalWar.API.Controllers
         [HttpGet("Sessions/{id}/Active_Player")]
         public IActionResult Getjoueur(int id)
         {
-            var session = _sess.GetSessionById(id);
-            return Ok(session.joueurid);
+            try 
+            {
+                var session = _sess.GetSessionById(id);
+                return Ok(session.joueurid);
+            }
+            catch
+            {
+                return NotFound("session non trouvé");
+            }
+           
         }
 
-        [HttpPost("/RejoindreUneSession")]
-        public IActionResult AjoutJoueur([FromBody] int id, string playername)
+        [HttpPost("Sessions/{id}/RejoindreUneSession")]
+        public IActionResult AjoutJoueur( int id, string playername)
         {
-            var session = _sess.GetSessionById(id);
+            
             try
             {
+                var session = _sess.GetSessionById(id);
                 if (session.Players != null && session.Players.Count() == 2)
                 {
                         return BadRequest("trop de joueur: max 2");
@@ -88,10 +97,10 @@ namespace NavalWar.API.Controllers
         [HttpPost("Sessions/{id}/ChangeGameState")]
         public IActionResult SetGameState([FromBody] int id, string playername)
         {
-            var session = _sess.GetSessionById(id);
+
             try
             {
-
+                var session = _sess.GetSessionById(id);
                 if (session.Players[0].etat_joueur == 1 && session.Players[1].etat_joueur == 1)
                 {
                     session.GameState = 1;
@@ -107,6 +116,24 @@ namespace NavalWar.API.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpGet("Sessions/{id}/GetGameState")]
+        public IActionResult GetGameState(int id)
+        {
+            
+            try
+            {
+                var session = _sess.GetSessionById(id);
+                return Ok(session.GameState);
+
+
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Session non trouvé");
             }
 
         }
