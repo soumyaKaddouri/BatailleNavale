@@ -94,7 +94,7 @@ namespace NavalWar.API.Controllers
             }   
         }
 
-        [HttpPost("Sessions/{id}/ChangeGameState")]
+        [HttpPut("Sessions/{id}/ChangeGameState")]
         public IActionResult SetGameState(int id)
         {
 
@@ -105,7 +105,7 @@ namespace NavalWar.API.Controllers
                 {
                     session.GameState = 1;
                     _sess.sauvegarde(session);
-                    return Ok();
+                    return Ok(session.GameState);
                 }
                 else
                 {
@@ -115,10 +115,28 @@ namespace NavalWar.API.Controllers
             }
             catch (Exception ex)
             {
+                return BadRequest("erreur");
+            }
+
+        }
+        [HttpPut("Sessions/{id}/SetJoueurId")]
+        public IActionResult Setjoueurid(int id, int joueur_id)
+        {
+
+            try
+            {
+                var session = _sess.GetSessionById(id);
+                session.joueurid= joueur_id;
+                _sess.sauvegarde(session);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
 
         }
+
         [HttpGet("Sessions/{id}/GetGameState")]
         public IActionResult GetGameState(int id)
         {

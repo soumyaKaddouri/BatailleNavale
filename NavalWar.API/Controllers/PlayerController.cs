@@ -45,6 +45,15 @@ namespace NavalWar.API.Controllers
                 var player = _player.GetPlayerById(id);
                 var session = _sess.GetSessionById(player.IdSession);
                 player.etat_joueur = 1;
+                if (session.Players[0].Id == player.Id)
+                {
+                    session.Players[0] = player;
+                }
+                else
+                {
+                    session.Players[1] = player;
+                }
+                _sess.sauvegarde(session);
                 _player.UpdatePlayer(player);
 
                 return Ok("Successful update");
@@ -58,6 +67,7 @@ namespace NavalWar.API.Controllers
         [HttpPut("/Players/{id}/Shoot")]
         public ActionResult Shoot(int id, int x, int y)
         {
+            int resultat;
             x = x - 4;
             y = y - 4;
             var player = _player.GetPlayerById(id);
@@ -70,25 +80,43 @@ namespace NavalWar.API.Controllers
                     if (listplay[1].Id == id)
                     {
                         session.Players = _player.Shoot(listplay[0], listplay[1], x, y);
-                        session.joueurid = _player.prochainjoueur(listplay[0], listplay[1], x, y);
+                        if (session.joueurid == _player.prochainjoueur(listplay[0], listplay[1], x, y))
+                        {
+                            resultat = 1;
+                        }
+                        else
+                        {
+                            resultat = -1;
+                        }
+
                         if (_player.TestGagné(session.Players[1]))
                         {
                             session.GameState= -1;
                         }
+                        session.joueurid = _player.prochainjoueur(listplay[0], listplay[1], x, y);
                     }
                     else
                     {
                         session.Players = _player.Shoot(listplay[1], listplay[0], x, y);
-                        session.joueurid = _player.prochainjoueur(listplay[1], listplay[0], x, y);
+                        
+                        if (session.joueurid == _player.prochainjoueur(listplay[1], listplay[0], x, y))
+                        {
+                            resultat = 1;
+                        }
+                        else
+                        {
+                            resultat = -1;
+                        }
                         if (_player.TestGagné(session.Players[0]))
                         {
                             session.GameState = -1;
                         }
+                        session.joueurid = _player.prochainjoueur(listplay[1], listplay[0], x, y);
                     }
                     _sess.sauvegarde(session);
                     _player.UpdatePlayer(session.Players[0]);
                     _player.UpdatePlayer(session.Players[1]);
-                    return Ok(session);
+                    return Ok((x+4, y+4, resultat));
                 }
                 else
                 {
@@ -148,7 +176,7 @@ namespace NavalWar.API.Controllers
 
             if (player.etat_joueur != 1)
             {
-                GetbateauDto r = new GetbateauDto(x,y,direction,longueur);
+                GetbateauDto r = new GetbateauDto(x-4,y-4,direction,longueur);
 
                 try
                 {

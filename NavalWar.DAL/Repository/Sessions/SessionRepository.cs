@@ -82,7 +82,7 @@ namespace NavalWar.DAL.Repository.Sessions
                 if (session != null)
                 {
                     session.Id = newSession.Id;
-                    session.GameState = session.GameState;
+                    session.GameState = newSession.GameState;
                     if (newSession.GameName != null) { session.GameName = newSession.GameName; }
                     session.joueurid = newSession.joueurid;
                     var options = new JsonSerializerOptions { WriteIndented = true };
