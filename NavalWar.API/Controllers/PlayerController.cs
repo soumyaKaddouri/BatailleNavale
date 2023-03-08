@@ -118,8 +118,8 @@ namespace NavalWar.API.Controllers
                 return Ok(session.joueurid + "a gagné la partie la partie n'a pas commencé");
             }
             else
-            { 
-                return BadRequest("la partie n'a pas commencé")
+            {
+                return BadRequest("la partie n'a pas commencé");
             }
         }
 
