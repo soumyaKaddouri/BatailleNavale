@@ -12,11 +12,7 @@ namespace NavalWar.Business
         {
             _play = play;
         }
-        public GameMapDto GetGameMap()
-        {
-            GameMapDto game = new GameMapDto();
-            return game;
-        }
+
         public PlayerDto GetPlayerById(int id)
         {
             PlayerDto player = _play.GetPlayerByIdDal(id);
@@ -29,18 +25,6 @@ namespace NavalWar.Business
             return game;
             
 
-        }
-        public PlayerDto ajout_bateau(PlayerDto player, GetbateauDto r)
-        {
-            if (player.etat_joueur == 0)
-            {
-
-            }
-            return player;
-        }
-        public PlayerDto ajout_bateau(PlayerDto player, int id_Session)
-        {
-            return new PlayerDto();
         }
         public List<PlayerDto> Shoot(PlayerDto Attaquant, PlayerDto Defenseur,int i,int j)
 
@@ -155,7 +139,7 @@ namespace NavalWar.Business
             {
                 if (direction == 1)
                 {
-                    if (startOffsetY + shipLength - 1 > Height - 1)
+                    if (startOffsetY + shipLength  > Height )
                     {
                         result = false;
                     }
@@ -173,7 +157,7 @@ namespace NavalWar.Business
                 }
                 else if (direction == 2)
                 {
-                    if (startOffsetY - shipLength + 1 < 0)
+                    if (startOffsetY - shipLength  < 0)
                     {
                         result = false;
                     }
@@ -191,7 +175,7 @@ namespace NavalWar.Business
                 }
                 else if (direction == 3)
                 {
-                    if (startOffsetX - shipLength + 1 < 0)
+                    if (startOffsetX - shipLength  < 0)
                     {
                         result = false;
                     }
@@ -209,7 +193,7 @@ namespace NavalWar.Business
                 }
                 else if (direction == 4)
                 {
-                    if (startOffsetX + shipLength - 1 < 0)
+                    if (startOffsetX + shipLength  < 0)
                     {
                         result = false;
                     }

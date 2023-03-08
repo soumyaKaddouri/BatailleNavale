@@ -29,7 +29,7 @@ namespace NavalWar.API.Controllers
             try
             {
                 var session = _sess.GetSessionById(id);
-                return Ok(session.Id);
+                return Ok(session);
             }
             catch (Exception ex)
             {
@@ -95,7 +95,7 @@ namespace NavalWar.API.Controllers
         }
 
         [HttpPost("Sessions/{id}/ChangeGameState")]
-        public IActionResult SetGameState([FromBody] int id, string playername)
+        public IActionResult SetGameState(int id)
         {
 
             try
@@ -127,9 +127,6 @@ namespace NavalWar.API.Controllers
             {
                 var session = _sess.GetSessionById(id);
                 return Ok(session.GameState);
-
-
-                
             }
             catch (Exception ex)
             {

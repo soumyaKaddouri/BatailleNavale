@@ -36,26 +36,6 @@ namespace NavalWar.API.Controllers
             }
         }
 
-        [HttpPost("/Players/{id}/Add_Player")]
-        public ActionResult Add_Player(int id, string name)
-        {
-            try
-            {
-                PlayerDto player = new PlayerDto();
-
-                player.Id = id;
-                player.Name = name;
-                player.etat_joueur = 0;
-
-                _player.AddPlayer(player);
-
-                return Ok(player.Id + ". Hello " + player.Name);
-            }
-            catch (Exception)
-            {
-                return NotFound("Cannot add a player");
-            }
-        }
 
         [HttpPut("/Players/{id}/Is_Ready")]
         public ActionResult SetPlayerState(int id)
@@ -63,7 +43,7 @@ namespace NavalWar.API.Controllers
             try
             {
                 var player = _player.GetPlayerById(id);
-
+                var session = _sess.GetSessionById(player.IdSession);
                 player.etat_joueur = 1;
                 _player.UpdatePlayer(player);
 
@@ -78,6 +58,8 @@ namespace NavalWar.API.Controllers
         [HttpPut("/Players/{id}/Shoot")]
         public ActionResult Shoot(int id, int x, int y)
         {
+            x = x - 4;
+            y = y - 4;
             var player = _player.GetPlayerById(id);
             var session = _sess.GetSessionById(player.IdSession);
             if (session.GameState == 1)
@@ -115,7 +97,7 @@ namespace NavalWar.API.Controllers
             }
             else if (session.GameState == -1)
             {
-                return Ok(session.joueurid + "a gagné la partie la partie n'a pas commencé");
+                return Ok(session.joueurid + "a gagné la partie la partie");
             }
             else
             {
@@ -160,13 +142,13 @@ namespace NavalWar.API.Controllers
         // ---------------------------- ROUTES FOR SHIPS ----------------------------  //
 
         [HttpPost("/GameMaps/{id}/Add_Ship")]
-        public ActionResult Add_Ship(int id, GetbateauDto newShip)
+        public ActionResult Add_Ship(int id,int x, int y, int direction,int longueur )
         {
             var player = _player.GetPlayerById(id);
 
             if (player.etat_joueur != 1)
             {
-                GetbateauDto r = new GetbateauDto(newShip.startOffsetX, newShip.startOffsetY, newShip.direction, newShip.shipLength);
+                GetbateauDto r = new GetbateauDto(x,y,direction,longueur);
 
                 try
                 {
