@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NavalWar.DTO.GameDto;
-using NavalWar.DAL;
-using NavalWar.Business;
 using NavalWar.DTO.WebDto;
-using NavalWar.DAL.Repository.Players;
-using NavalWar.DAL.Repository.Sessions;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
+using NavalWar.Business;
 
 namespace NavalWar.API.Controllers
 {
@@ -15,18 +10,18 @@ namespace NavalWar.API.Controllers
 
     public class PlayerController : Controller
     {
-
-
-        SessionDto gameArea = new SessionDto();
         private readonly IPlayerService _player;
         private readonly ISessionService _sess;
+        
         public PlayerController(IPlayerService play, ISessionService sess)
         {
             _player = play;
             _sess = sess;
         }
 
-        [HttpGet("/getPlayers/{id}")]
+        // ---------------------------- ROUTES FOR PLAYERS ----------------------------  //
+
+        [HttpGet("/Players/{id}")]
         public ActionResult GetPlayerBy(int id)
         {
 
@@ -37,35 +32,42 @@ namespace NavalWar.API.Controllers
             }
             catch (Exception)
             {
-                return NotFound("Cannot find players");
+                return NotFound("Cannot find the player you asked for");
             }
         }
 
-
-        [HttpGet("/Players/{id}/GameMaps")]
-        public ActionResult GetGameMaps(int id)
+        [HttpPost("/Players/{id}/Add_Player")]
+        public ActionResult Add_Player(int id, string name)
         {
-            GameMapDto gameMaps = new GameMapDto();
             try
-            {  
-                gameMaps = _player.GetGameMap(id);
-                return View(gameMaps);
-            }
-            catch(Exception) 
             {
-                return NotFound("Cannot find any game map");
+                PlayerDto player = new PlayerDto();
+
+                player.Id = id;
+                player.Name = name;
+                player.etat_joueur = 0;
+
+                _player.AddPlayer(player);
+
+                return Ok(player.Id + ". Hello " + player.Name);
+            }
+            catch (Exception)
+            {
+                return NotFound("Cannot add a player");
             }
         }
-        [HttpPut("/Players/{id}/prêt")]
-        public ActionResult SetEtatJoueur(int id)
+
+        [HttpPut("/Players/{id}/Is_Ready")]
+        public ActionResult SetPlayerState(int id)
         {
-            
             try
             {
                 var player = _player.GetPlayerById(id);
+
                 player.etat_joueur = 1;
                 _player.UpdatePlayer(player);
-                return Ok();
+
+                return Ok("Successful update");
             }
             catch (Exception)
             {
@@ -73,29 +75,6 @@ namespace NavalWar.API.Controllers
             }
         }
 
-        [HttpPost("/GameMaps/{id}/Add_Ship")]
-        public ActionResult Add_Ship(int id,int x, int y , int direction, int type)
-        {
-            var player = _player.GetPlayerById(id);
-            if (player.etat_joueur != 1)
-            {
-                GetbateauDto r =new GetbateauDto(x,y,direction,type);
-                try
-                {
-                     player = _player.AddShipToGrid(player, r);
-                    _player.UpdatePlayer(player);
-                    return Ok(player);
-                }
-                catch
-                {
-                    return BadRequest("Ship cannot be added to the position given");
-                }
-            }
-            else
-            {
-                return BadRequest("The game has already begun. You can't add more ships");
-            }
-        }
         [HttpPut("/Players/{id}/Shoot")]
         public ActionResult Shoot(int id, int x, int y)
         {
@@ -131,17 +110,67 @@ namespace NavalWar.API.Controllers
                 return BadRequest("la partie n'a pas commencé");
             }
         }
+
         [HttpDelete("/Players/{id}/Delete")]
         public ActionResult DeletePlayer(int id)
         {
             try
             {
                 DeletePlayer(id);
-                return Ok();
+                return Ok("Successful deletion");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw;
+                return NotFound("Cannot delete the specified player");
+            }
+        }
+
+        // ---------------------------- ROUTES FOR GAMEMAPS ----------------------------  //
+
+        [HttpGet("/Players/{id}/GameMaps")]
+        public ActionResult GetGameMaps(int id)
+        {
+            PlayerDto player = new PlayerDto();
+            GameMapDto gameMaps = new GameMapDto();
+            try
+            {  
+                player = _player.GetPlayerById(id);
+                gameMaps = player.GetPlayerBoards();
+
+                return View(gameMaps);
+            }
+            catch(Exception) 
+            {
+                return NotFound("Cannot find the ganeMap you're looking for");
+            }
+        }
+
+        // ---------------------------- ROUTES FOR SHIPS ----------------------------  //
+
+        [HttpPost("/GameMaps/{id}/Add_Ship")]
+        public ActionResult Add_Ship(int id, GetbateauDto newShip)
+        {
+            var player = _player.GetPlayerById(id);
+
+            if (player.etat_joueur != 1)
+            {
+                GetbateauDto r = new GetbateauDto(newShip.startOffsetX, newShip.startOffsetY, newShip.direction, newShip.shipLength);
+
+                try
+                {
+                     player = _player.AddShipToGrid(player, r);
+                    _player.UpdatePlayer(player);
+
+                    return Ok(player);
+                }
+                catch
+                {
+                    return BadRequest("Ship cannot be added to the position given");
+                }
+            }
+            else
+            {
+                return BadRequest("The game has already begun. You can't add more ships");
             }
         }
     }
