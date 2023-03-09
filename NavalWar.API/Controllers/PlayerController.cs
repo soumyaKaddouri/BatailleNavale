@@ -68,8 +68,8 @@ namespace NavalWar.API.Controllers
         public ActionResult Shoot(int id, int x, int y)
         {
             int resultat;
-            x = x - 4;
-            y = y - 4;
+            x = x + 4;
+            y = y + 4;
             var player = _player.GetPlayerById(id);
             var session = _sess.GetSessionById(player.IdSession);
             if (session.GameState == 1)
@@ -176,7 +176,7 @@ namespace NavalWar.API.Controllers
 
             if (player.etat_joueur != 1)
             {
-                GetbateauDto r = new GetbateauDto(x-4,y-4,direction,longueur);
+                GetbateauDto r = new GetbateauDto(x+4,y+4,direction,longueur);
 
                 try
                 {
