@@ -32,6 +32,7 @@ export const Ship = ({position_, rotation_, scale, model}) => {
         ref={ref}
         onClick={(e) => {
           setClicked(!clicked);
+          setGame({...game, clicked:clicked, currentShip:{position}})
         }}
         onDoubleClick={(event) => {
           const y = ref.current.rotation.y;
