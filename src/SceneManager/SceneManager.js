@@ -2,23 +2,20 @@
 // import { useFrame } from "@react-three/fiber";
 //import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import React, { useState, useEffect, Children, useContext } from 'react';
-import * as THREE from 'three'
-import { Ship } from '../Ship/ship';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { BoxItem } from '../BoxItem/boxItem';
-import { GameContext } from '../GameContext/Game-context';
+import React, { useState, useEffect, Children, useContext } from "react";
+import * as THREE from "three";
+import { Ship } from "../Ship/ship";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { BoxItem } from "../BoxItem/boxItem";
+import { GameContext } from "../GameContext/Game-context";
 
 export const SceneManager = () => {
-
   const [game, setGame] = useContext(GameContext);
 
   const [model1, setModel1] = useState();
   const [model2, setModel2] = useState();
   const [model3, setModel3] = useState();
   const [model4, setModel4] = useState();
-  
-  
 
   const position1 = new THREE.Vector3(1, 2, 0.2);
   const position2 = new THREE.Vector3(-1, -2, 0.2);
@@ -38,18 +35,24 @@ export const SceneManager = () => {
   useEffect(() => {
     // new GLTFLoader().load('./scene.gltf', setModel1);
     // new GLTFLoader().load('./ship2.glb', setModel2);
-    new GLTFLoader().load('./ship.glb', setModel3);
+    new GLTFLoader().load("./ship.glb", setModel3);
     // new GLTFLoader().load('./ship.glb', setModel4);
   }, []);
 
   return (
     <>
       {console.log(game.idPlayer)}
+
       {model3 ? (
         <>
           {/* <Ship position_={position1} rotation_={rotation1} scale={scale1} model={model1} /> */}
           {/* <Ship position_={position2} rotation_={rotation2} scale={scale2} model={model2} /> */}
-          <Ship position_={position3} rotation_={rotation3} scale={scale3} model={model3} />
+          <Ship
+            position_={position3}
+            rotation_={rotation3}
+            scale={scale3}
+            model={model3}
+          />
           {/* <Ship position_={position4} rotation_={rotation4} scale={scale4} model={model4} /> */}
         </>
       ) : null}
@@ -61,7 +64,7 @@ export const SceneManager = () => {
 
       {Array.from({ length: 9 }, (_, i) =>
         Array.from({ length: 9 }, (_, j) => (
-          <BoxItem i={i+6} j={j+3} key={`${i}-${j}`} isLeft={false}/>
+          <BoxItem i={i + 6} j={j + 3} key={`${i}-${j}`} isLeft={false} />
         ))
       )}
     </>
