@@ -2,13 +2,16 @@
 // import { useFrame } from "@react-three/fiber";
 //import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import React, { useState, useEffect, Children } from 'react';
+import React, { useState, useEffect, Children, useContext } from 'react';
 import * as THREE from 'three'
 import { Ship } from '../Ship/ship';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { BoxItem } from '../BoxItem/boxItem';
+import { GameContext } from '../GameContext/Game-context';
 
 export const SceneManager = () => {
+
+  const [game, setGame] = useContext(GameContext);
 
   const [model1, setModel1] = useState();
   const [model2, setModel2] = useState();
@@ -41,6 +44,7 @@ export const SceneManager = () => {
 
   return (
     <>
+      {console.log(game.idPlayer)}
       {model3 ? (
         <>
           {/* <Ship position_={position1} rotation_={rotation1} scale={scale1} model={model1} /> */}
