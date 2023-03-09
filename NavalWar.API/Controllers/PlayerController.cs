@@ -173,7 +173,7 @@ namespace NavalWar.API.Controllers
         public ActionResult Add_Ship(int id,int x, int y, int direction,int longueur )
         {
             var player = _player.GetPlayerById(id);
-
+            var session = _sess.GetSessionById(player.IdSession);
             if (player.etat_joueur != 1)
             {
                 GetbateauDto r = new GetbateauDto(x+4,y+4,direction,longueur);
@@ -181,7 +181,17 @@ namespace NavalWar.API.Controllers
                 try
                 {
                      player = _player.AddShipToGrid(player, r);
+                    if (session.Players[0].Id == player.Id)
+                    {
+                        session.Players[0] = player;
+                    }
+                    else
+                    {
+                        session.Players[1] = player;
+                    }
+                    _sess.sauvegarde(session);
                     _player.UpdatePlayer(player);
+
 
                     return Ok(player);
                 }
