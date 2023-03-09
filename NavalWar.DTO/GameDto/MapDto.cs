@@ -11,8 +11,8 @@ namespace NavalWar.DTO.GameDto
 
         public MapDto()
         {
-            Width = 10;
-            Height = 10;
+            Width = 9;
+            Height = 9;
             InitializeGrid(Width, Height);
         }
 
