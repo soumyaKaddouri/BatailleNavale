@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NavalWar.DTO.WebDto
+﻿namespace NavalWar.DTO.WebDto
 {
     public class GetbateauDto
     {
         public int startOffsetX;
         public int startOffsetY;
-        public int direction ;//up,down,Left,Right
-        public int shipLength;//longueur
+        public int direction ;      // 0: up, 1: down, 2: Left, 3: Right
+        public int shipLength;      // Each shipLength refers to a specific ship type
+
         public GetbateauDto(int x, int y, int direction, int type)
         {
             this.startOffsetX = x;

@@ -8,6 +8,7 @@ namespace NavalWar.Business
     public class PlayerService : IPlayerService
     {
         private readonly IPlayerRepository _play;
+        
         public PlayerService(IPlayerRepository play)
         {
             _play = play;
@@ -23,12 +24,12 @@ namespace NavalWar.Business
         {
             GameMapDto game = _play.GetPlayerByIdDal(Id).PlayerBoards;
             return game;
-            
-
         }
-        public List<PlayerDto> Shoot(PlayerDto Attaquant, PlayerDto Defenseur,int i,int j)
 
+        public List<PlayerDto> Shoot(PlayerDto Attaquant, PlayerDto Defenseur, int i, int j)
         {
+            List<PlayerDto> list = new List<PlayerDto>();
+            
             if (i>=0 && i<= Attaquant.PlayerBoards.ShotsBoard.Width && j >= 0 && j <= Attaquant.PlayerBoards.ShotsBoard.Height)
             {
                 if (Defenseur.PlayerBoards.ShipPositionsBoard.Grid[i][j] ==1)
@@ -40,19 +41,18 @@ namespace NavalWar.Business
                 {
                     Attaquant.PlayerBoards.ShotsBoard.Grid[i][j] = -1;
                 }
-                else 
-                {
-                }
             }
             else
             {
                 throw new Exception("tire hors-porté");
             }
-            List<PlayerDto> list = new List<PlayerDto>();
+         
             list.Add(Attaquant);
             list.Add(Defenseur);
+            
             return list;
         }
+
         public int prochainjoueur(PlayerDto Attaquant, PlayerDto Defenseur, int i, int j)
         {
             if (Defenseur.PlayerBoards.ShipPositionsBoard.Grid[i][j] == 1)
@@ -64,19 +64,23 @@ namespace NavalWar.Business
                 return Defenseur.Id;
             }
         }
+
         public int AddPlayer(PlayerDto player)
         {
             return _play.AddPlayerDal(player);
             
         }
+
         public void DeletePlayer(int id)
         {
             _play.RemovePlayerDal(id);
         }
+
         public void UpdatePlayer(PlayerDto player)
         {
             _play.UpdatePlayerDal(player);
         }
+
         public PlayerDto PlaceShip(PlayerDto player,int startOffsetX, int startOffsetY, int shipLength, int direction)
         {
             if (direction == 1)
@@ -111,8 +115,6 @@ namespace NavalWar.Business
         }
         public PlayerDto AddShipToGrid(PlayerDto player,GetbateauDto r)
         {
-
-
             if (TestShipPlacement(player ,r.startOffsetX, r.startOffsetY, r.shipLength, r.direction))
             {
                 return PlaceShip(player ,r.startOffsetX, r.startOffsetY, r.shipLength, r.direction);
@@ -123,8 +125,6 @@ namespace NavalWar.Business
             }
         }
 
-
-
         public bool TestShipPlacement(PlayerDto player,int startOffsetX, int startOffsetY, int shipLength, int direction)
         {
             bool result = true;
@@ -133,7 +133,6 @@ namespace NavalWar.Business
             if (startOffsetX < 0 || startOffsetX > Width - 1 || startOffsetY < 0 || startOffsetY > Height - 1)
             {
                 result = false;
-
             }
             else
             {
@@ -213,21 +212,19 @@ namespace NavalWar.Business
 
             return result;
         }
+
         public bool TestGagné(PlayerDto Defenseur)
         {
             MapDto mapship = Defenseur.PlayerBoards.ShipPositionsBoard;
+            
             for (int k = 0; k < mapship.Width; k++)
             {
                 for (int j = 0; j < mapship.Height; j++)
                 {
                     if (mapship.Grid[k][j] == 1)
                     {
-                        return false;//le joueur attaquant n'a pas encore gagné
+                        return false; // le joueur attaquant n'a pas encore gagné
                     }
-                    
-                    
-                        
-                    
                 }
             }
             

@@ -14,6 +14,7 @@ namespace NavalWar.Business
             string s = "";
             return s;
         }
+
         public SessionDto NewSession()
         {
             var _session = _sess.NewSessionDal();
@@ -26,10 +27,12 @@ namespace NavalWar.Business
             var _session = _sess.GetSessionByIdDal(id);
             return _session;
         }
+
         static  PlayerDto GetGamePlayer(SessionDto Session ,int playerId)
         {
             return Session.Players[playerId];
         }
+
         public void sauvegarde(SessionDto session)
         {
             _sess.UpdateSessionDal(session);

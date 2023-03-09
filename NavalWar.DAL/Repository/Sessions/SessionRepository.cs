@@ -8,17 +8,21 @@ namespace NavalWar.DAL.Repository.Sessions
     public class SessionRepository : ISessionRepository
     {
         private readonly NavalContext _context;
+        
         public SessionRepository(NavalContext context)
         {
             _context = context;
         }
+
         public SessionDto NewSessionDal()
         {
             try
             {
                 Session session = new Session();
+                
                 _context.Sessions.Add(session);
                 _context.SaveChanges();
+                
                 return session.ToDto();
             }
             catch (Exception)
@@ -27,6 +31,7 @@ namespace NavalWar.DAL.Repository.Sessions
             }
             
         }
+
         public List<SessionDto> GetSessions()
         {
             try
@@ -63,8 +68,7 @@ namespace NavalWar.DAL.Repository.Sessions
         public void AddSession(Session session)
         {
             try
-            { 
-               
+            {       
                 _context.Sessions.Add(session);
                 _context.SaveChanges();
             }
@@ -79,15 +83,20 @@ namespace NavalWar.DAL.Repository.Sessions
             try
             {
                 var session = _context.Sessions.Find(newSession.Id);
+                
                 if (session != null)
                 {
                     session.Id = newSession.Id;
                     session.GameState = newSession.GameState;
-                    if (newSession.GameName != null) { session.GameName = newSession.GameName; }
                     session.joueurid = newSession.joueurid;
+                    
+                    if (newSession.GameName != null) { session.GameName = newSession.GameName; }
+                    
                     var options = new JsonSerializerOptions { WriteIndented = true };
+                    
                     if (newSession.Players != null)
                         session._playersJson = JsonSerializer.Serialize(newSession.Players, options);
+                    
                     _context.SaveChanges();
                 }
                 
@@ -103,6 +112,7 @@ namespace NavalWar.DAL.Repository.Sessions
             try
             {
                 Session session = _context.Sessions.Find(id);
+                
                 if (session != null)
                 {
                     _context.Sessions.Remove(session);

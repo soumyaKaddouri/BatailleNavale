@@ -49,7 +49,6 @@ namespace NavalWar.API.Controllers
             {
                 return NotFound("session non trouvé");
             }
-           
         }
 
         [HttpPost("Sessions/{id}/RejoindreUneSession")]
@@ -117,8 +116,8 @@ namespace NavalWar.API.Controllers
             {
                 return BadRequest("erreur");
             }
-
         }
+
         [HttpPut("Sessions/{id}/SetJoueurId")]
         public IActionResult Setjoueurid(int id, int joueur_id)
         {
@@ -134,7 +133,6 @@ namespace NavalWar.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpGet("Sessions/{id}/GetGameState")]
@@ -150,7 +148,6 @@ namespace NavalWar.API.Controllers
             {
                 return BadRequest("Session non trouvé");
             }
-
         }
     }
 }

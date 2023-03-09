@@ -12,5 +12,4 @@ namespace NavalWar.DAL.Repository.Sessions
         public void UpdateSessionDal(SessionDto newSession);
         public void RemoveSession(int id);
     }
-
 }
