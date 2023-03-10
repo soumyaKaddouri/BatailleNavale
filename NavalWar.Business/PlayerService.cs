@@ -83,32 +83,32 @@ namespace NavalWar.Business
 
         public PlayerDto PlaceShip(PlayerDto player,int startOffsetX, int startOffsetY, int shipLength, int direction)
         {
-            if (direction == 1)
+            if (direction == 4)
             {
                 for (int k = 0; k < shipLength; k++)
                 {
-                    player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetX][startOffsetY + k] = 1;
-                }
-            }
-            else if (direction == 2)
-            {
-                for (int k = 0; k < shipLength; k++)
-                {
-                    player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetX][startOffsetY - k] = 1;
+                    player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetY][startOffsetX + k] = 1;
                 }
             }
             else if (direction == 3)
             {
                 for (int k = 0; k < shipLength; k++)
                 {
-                    player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetX - k][startOffsetY] = 1;
+                    player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetY][startOffsetX - k] = 1;
                 }
             }
-            else if (direction == 4)
+            else if (direction == 1)
             {
                 for (int k = 0; k < shipLength; k++)
                 {
-                    player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetX + k][startOffsetY] = 1;
+                    player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetY - k][startOffsetX] = 1;
+                }
+            }
+            else if (direction == 2)
+            {
+                for (int k = 0; k < shipLength; k++)
+                {
+                    player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetY + k][startOffsetX] = 1;
                 }
             }
             return player;
@@ -136,7 +136,7 @@ namespace NavalWar.Business
             }
             else
             {
-                if (direction == 1)
+                if (direction == 2)
                 {
                     if (startOffsetY + shipLength  > Height )
                     {
@@ -154,9 +154,9 @@ namespace NavalWar.Business
                         }
                     }
                 }
-                else if (direction == 2)
+                else if (direction == 1)
                 {
-                    if (startOffsetY - shipLength  < 0)
+                    if (startOffsetY- shipLength  < 0)
                     {
                         result = false;
                     }
