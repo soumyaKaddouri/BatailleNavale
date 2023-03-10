@@ -79,8 +79,8 @@ namespace NavalWar.API.Controllers
                     List<PlayerDto> listplay = session.Players;
                     if (listplay[1].Id == id)
                     {
-                        session.Players = _player.Shoot(listplay[0], listplay[1], x, y);
-                        if (session.joueurid == _player.prochainjoueur(listplay[0], listplay[1], x, y))
+                        session.Players = _player.Shoot(listplay[1], listplay[0], x, y);
+                        if (session.joueurid == _player.prochainjoueur(listplay[1], listplay[0], x, y))
                         {
                             resultat = 1;
                         }
@@ -93,13 +93,13 @@ namespace NavalWar.API.Controllers
                         {
                             session.GameState= -1;
                         }
-                        session.joueurid = _player.prochainjoueur(listplay[0], listplay[1], x, y);
+                        session.joueurid = _player.prochainjoueur(listplay[1], listplay[0], x, y);
                     }
                     else
                     {
-                        session.Players = _player.Shoot(listplay[1], listplay[0], x, y);
+                        session.Players = _player.Shoot(listplay[0], listplay[1], x, y);
                         
-                        if (session.joueurid == _player.prochainjoueur(listplay[1], listplay[0], x, y))
+                        if (session.joueurid == _player.prochainjoueur(listplay[0], listplay[1], x, y))
                         {
                             resultat = 1;
                         }
@@ -111,12 +111,14 @@ namespace NavalWar.API.Controllers
                         {
                             session.GameState = -1;
                         }
-                        session.joueurid = _player.prochainjoueur(listplay[1], listplay[0], x, y);
+                        session.joueurid = _player.prochainjoueur(listplay[0], listplay[1], x, y);
                     }
                     _sess.sauvegarde(session);
                     _player.UpdatePlayer(session.Players[0]);
                     _player.UpdatePlayer(session.Players[1]);
-                    return Ok((x+4, y+4, resultat));
+                    x = x - 4;
+                    y = y - 4;
+                    return Ok(Json(new { x, y, resultat }) );
                 }
                 else
                 {

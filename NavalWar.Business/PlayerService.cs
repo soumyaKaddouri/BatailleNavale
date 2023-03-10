@@ -55,7 +55,7 @@ namespace NavalWar.Business
 
         public int prochainjoueur(PlayerDto Attaquant, PlayerDto Defenseur, int i, int j)
         {
-            if (Defenseur.PlayerBoards.ShipPositionsBoard.Grid[i][j] == 1)
+            if (Defenseur.PlayerBoards.ShipPositionsBoard.Grid[i][j] == -1)
             {
                 return Attaquant.Id;
             }
