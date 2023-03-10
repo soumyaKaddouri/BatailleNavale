@@ -1,0 +1,19 @@
+Yassine Khiara F5​
+
+Soumya Kaddouri F2​
+
+Lotfi El Khalidy F5​
+
+Aboubakr El Harrak F2
+
+
+uri: 
+
+tcp:navalwarserver.database.windows.net,1433
+
+Utilisateur : 
+NavalWar
+
+password
+
+Isima2023
