@@ -66,7 +66,7 @@ namespace NavalWar.API.Controllers
         }
 
         [HttpPut("/Players/{id}/Shoot")]
-        public ActionResult Shoot(int id, int y, int x)
+        public ActionResult Shoot(int id, int x, int y)
         {
             int resultat;
             x = x + 4;
