@@ -1,13 +1,13 @@
 import { Canvas } from "@react-three/fiber";
 import { CameraControls } from "../CameraControls/CameraControls";
 import { SceneManager } from "../SceneManager/SceneManager";
-import { Alert, Button, Card, Collapse, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Alert, Button, Card, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { purple } from "@mui/material/colors";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GameContext } from "../GameContext/Game-context";
 import CloseIcon from '@mui/icons-material/Close';
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 
@@ -30,12 +30,55 @@ export const GameCanvas = () => {
 
   const [gameStarted, setGameStarted] = useState();
 
+  const [winner, setWinner] = useState(null);
+
+  const navigate = useNavigate();
+
+
   useEffect(
     () => {
       setShowValidateShipPositionButton(!game?.clicked);
     },
     [game?.clicked]
   );
+
+  const AlertDialog = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    };
+  
+
+  return (
+    <div>
+      <Dialog
+        open={winner !== null}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Game Over"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Congratulations {winner ?? winner}, you won the game !
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={(e) => {navigate('/start')}} autoFocus>
+            Restart
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
 
   
  
@@ -181,6 +224,37 @@ export const GameCanvas = () => {
             copy2.leftBoxes[copy2.clickedBox.id - 1].type = 2;
             setGame(copy2);
           }
+
+          fetch("https://192.168.43.54:5028/Sessions/"+game.idSession+"/GetGameState", {
+          "credentials": "omit",
+          "headers": {
+              "Accept": "*/*",
+              "Accept-Language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+              "Sec-Fetch-Dest": "empty",
+              "Sec-Fetch-Mode": "cors",
+              "Sec-Fetch-Site": "same-origin"
+          },
+          "method": "GET",
+          "mode": "cors"
+          }).then((res) => {return res.text()})
+            .then(data => {
+              if (parseInt(data) === -1) {
+              
+                 fetch("https://192.168.43.54:5028/Sessions/"+game.idSession+"/Active_Player", {
+                    "credentials": "omit",
+                    "headers": {
+                        "Accept": "*/*",
+                        "Accept-Language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+                        "Sec-Fetch-Dest": "empty",
+                        "Sec-Fetch-Mode": "cors",
+                        "Sec-Fetch-Site": "same-origin"
+                    },
+                    "method": "GET",
+                    "mode": "cors"
+                 }).then((res) => { return res.json(); })
+                   .then(data => setWinner(parseInt(data)));
+            }});
+
         }
         ).catch(error => {
           console.log(error.message);
@@ -269,7 +343,8 @@ export const GameCanvas = () => {
         }
         
 
-        </div>
+      </div>
+      <AlertDialog/>
       </div>
     );
 }
