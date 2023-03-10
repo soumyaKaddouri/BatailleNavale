@@ -70,7 +70,7 @@ namespace NavalWar.API.Controllers
         {
             int resultat;
             x = x + 4;
-            y = y + 4;
+            y = y - 4;
             var player = _player.GetPlayerById(id);
             var session = _sess.GetSessionById(player.IdSession);
             if (session.GameState == 1)
@@ -121,7 +121,7 @@ namespace NavalWar.API.Controllers
                     _player.UpdatePlayer(session.Players[0]);
                     _player.UpdatePlayer(session.Players[1]);
                     x = x - 4;
-                    y = y - 4;
+                    y = y + 4;
                     return Ok(Json(new { x, y, resultat }) );
                 }
                 else
@@ -204,7 +204,7 @@ namespace NavalWar.API.Controllers
             var session = _sess.GetSessionById(player.IdSession);
             if (player.etat_joueur != 1)
             {
-                GetbateauDto r = new GetbateauDto(x+4,y+4,direction,longueur);
+                GetbateauDto r = new GetbateauDto(x+4,y-4,direction,longueur);
 
                 try
                 {
