@@ -73,73 +73,81 @@ namespace NavalWar.API.Controllers
             {
                 x = 0;
             }
-            if (x == -3)
+            else if (x == -3)
             {
                 x = 1;
             }
-            if (x == -2)
+            else if (x == -2)
             {
                 x = 2;
             }
-            if (x == -1)
+            else if (x == -1)
             {
                 x = 3;
             }
-            if (x == 0)
+            else if (x == 0)
             {
                 x = 4;
             }
-            if (x == 1)
+            else if (x == 1)
             {
                 x = 5;
             }
-            if (x == 2)
+            else if (x == 2)
             {
                 x = 6;
             }
-            if (x == 3)
+            else if (x == 3)
             {
                 x = 7;
             }
-            if (x == 4)
+            else if (x == 4)
             {
                 x = 8;
+            }
+            else
+            {
+                x = -100;
             }
             if (y == -4)
             {
                 y = 8;
             }
-            if (y == -3)
+            else if (y == -3)
             {
                 y = 7;
             }
-            if (y == -2)
+            else if (y == -2)
             {
                 y = 6;
             }
-            if (y == -1)
+            else if (y == -1)
             {
                 y = 5;
             }
-            if (y == 0)
+            else if (y == 0)
             {
                 y = 4;
             }
-            if (y == 1)
+            else if (y == 1)
             {
                 y = 3;
             }
-            if (y == 2)
+            else if (y == 2)
             {
                 y = 2;
             }
-            if (y == 3)
+            else if (y == 3)
             {
                 y = 1;
             }
-            if (y == 4)
+            else if (y == 4)
             {
                 y = 0;
+            }
+            else
+            {
+                y = -100;
             }
 
             var player = _player.GetPlayerById(id);
@@ -275,73 +283,81 @@ namespace NavalWar.API.Controllers
             {
                 x = 0;
             }
-            if (x == -3)
+            else if (x == -3)
             {
                 x = 1;
             }
-            if (x == -2)
+            else if (x == -2)
             {
                 x = 2;
             }
-            if (x == -1)
+            else if (x == -1)
             {
                 x = 3;
             }
-            if (x == 0)
+            else if (x == 0)
             {
                 x = 4;
             }
-            if (x == 1)
+            else if (x == 1)
             {
                 x = 5;
             }
-            if (x == 2)
+            else if (x == 2)
             {
                 x = 6;
             }
-            if (x == 3)
+            else if (x == 3)
             {
                 x = 7;
             }
-            if (x == 4)
+            else if (x == 4)
             {
                 x = 8;
+            }
+            else
+            {
+                x = -100;
             }
             if (y == -4)
             {
                 y = 8;
             }
-            if (y == -3)
+            else if (y == -3)
             {
                 y = 7;
             }
-            if (y == -2)
+            else if (y == -2)
             {
                 y = 6;
             }
-            if (y == -1)
+            else if (y == -1)
             {
                 y = 5;
             }
-            if (y == 0)
+            else if (y == 0)
             {
                 y = 4;
             }
-            if (y == 1)
+            else if (y == 1)
             {
                 y = 3;
             }
-            if (y == 2)
+            else if (y == 2)
             {
                 y = 2;
             }
-            if (y == 3)
+            else if (y == 3)
             {
                 y = 1;
             }
-            if (y == 4)
+            else if (y == 4)
             {
                 y = 0;
+            }
+            else
+            {
+                y = -100;
             }
             var player = _player.GetPlayerById(id);
             var session = _sess.GetSessionById(player.IdSession);
