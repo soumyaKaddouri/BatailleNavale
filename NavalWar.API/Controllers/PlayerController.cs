@@ -78,9 +78,12 @@ namespace NavalWar.API.Controllers
                 if (session.joueurid == id)
                 {
                     List<PlayerDto> listplay = session.Players;
+                    List<PlayerDto> listplayinverse = session.Players;
                     if (listplay[1].Id == id)
                     {
-                        session.Players = _player.Shoot(listplay[1], listplay[0], x, y);
+                        listplayinverse = _player.Shoot(listplay[1], listplay[0], x, y);
+                        session.Players[0] = listplayinverse[1];
+                        session.Players[1] = listplayinverse[0];
                         if (session.joueurid == _player.prochainjoueur(listplay[1], listplay[0], x, y))
                         {
                             resultat = 1;
