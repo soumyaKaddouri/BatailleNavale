@@ -12,25 +12,31 @@ import * as THREE from "three";
 
 function App() {
   const [game, setGame] = useState(
-    { pointerPosition: { x: 0, y: 0, z: 0.2 } },
-    [
-      {
-        shipId: 0,
-        model: "./ship.glb",
-        position: new THREE.Vector3(3, 2, 0.01),
-        rotation: new THREE.Euler(Math.PI / 2, 0, 0),
-        scale: { x: 0.4, y: 0.4, z: 0.22 },
-        isFixed: false,
-      },
+    {
+      pointerPosition: { x: 0, y: 0, z: 0.2 },
+      ships:[
       {
         shipId: 1,
-        model: "./ship.glb",
-        position: new THREE.Vector3(4, 1, 0.01),
-        rotation: new THREE.Euler(Math.PI / 2, 0, 0),
-        scale: { x: 0.4, y: 0.4, z: 0.22 },
         isFixed: false,
       },
-    ]
+      {
+        shipId: 2,
+        isFixed: false,
+      },
+      {
+        shipId: 3,
+        isFixed: false,
+      },
+      {
+        shipId: 4,
+        isFixed: false,
+      },
+      {
+        shipId: 5,
+        isFixed: false,
+      },
+    ]  
+    }
   );
 
   return (

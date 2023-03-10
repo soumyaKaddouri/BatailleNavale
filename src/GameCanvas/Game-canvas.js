@@ -25,8 +25,22 @@ export const GameCanvas = () => {
   );
 
   const handleValidateShipPosition = () => {
+
+    
+    //game?.ships?.find((ship) => ship.shipId === game?.currentShip?.id).isFixed = true;
+    var copy = game;
+    copy.ships.forEach(ship => {
+      if (ship.shipId === game?.currentShip?.id) {
+        ship.isFixed = true;
+
+      }
+    });
+
+    setGame(copy);
+
     setValidateShipPositionButtonCounter(ValidateShipPositionButtonCounter + 1);
     setShowValidateShipPositionButton(!showValidateShipPositionButton);
+      
 
   }
 
@@ -48,7 +62,7 @@ export const GameCanvas = () => {
 
   return (
       <div style={{display: "flex", flexFlow: "row"}}>
-        <Canvas style={{ width: '1366px', height: '720px' }}>
+        <Canvas style={{ width: '1366px', height: '720px', backgroundImage: '#ffffff'}}>
           <pointLight position={[0, 0, 4]} />
           <SceneManager />
           <CameraControls />
