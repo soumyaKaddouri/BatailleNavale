@@ -32,14 +32,14 @@ namespace NavalWar.Business
             
             if (i>=0 && i<= Attaquant.PlayerBoards.ShotsBoard.Width && j >= 0 && j <= Attaquant.PlayerBoards.ShotsBoard.Height)
             {
-                if (Defenseur.PlayerBoards.ShipPositionsBoard.Grid[i][j] ==1)
+                if (Defenseur.PlayerBoards.ShipPositionsBoard.Grid[j][i] ==1)
                 {
-                    Defenseur.PlayerBoards.ShipPositionsBoard.Grid[i][j] = -1;
-                    Attaquant.PlayerBoards.ShotsBoard.Grid[i][j] = 1;
+                    Defenseur.PlayerBoards.ShipPositionsBoard.Grid[j][i] = -1;
+                    Attaquant.PlayerBoards.ShotsBoard.Grid[j][i] = 1;
                 }
-                else if (Defenseur.PlayerBoards.ShipPositionsBoard.Grid[i][j] == 0)
+                else if (Defenseur.PlayerBoards.ShipPositionsBoard.Grid[j][i] == 0)
                 {
-                    Attaquant.PlayerBoards.ShotsBoard.Grid[i][j] = -1;
+                    Attaquant.PlayerBoards.ShotsBoard.Grid[j][i] = -1;
                 }
             }
             else
