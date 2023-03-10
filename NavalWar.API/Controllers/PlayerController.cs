@@ -2,6 +2,7 @@
 using NavalWar.DTO.GameDto;
 using NavalWar.DTO.WebDto;
 using NavalWar.Business;
+using NavalWar.DAL.Models;
 
 namespace NavalWar.API.Controllers
 {
@@ -151,24 +152,46 @@ namespace NavalWar.API.Controllers
 
         // ---------------------------- ROUTES FOR GAMEMAPS ----------------------------  //
 
-        [HttpGet("/Players/{id}/GameMaps")]
-        public ActionResult GetGameMaps(int id)
+        [HttpGet("/Players/{id}/MapShotsAdversaire")]
+        public ActionResult GetAdversaire(int id)
         {
-            PlayerDto player = new PlayerDto();
-            GameMapDto gameMaps = new GameMapDto();
             try
-            {  
-                player = _player.GetPlayerById(id);
-                gameMaps = player.GetPlayerBoards();
-
-                return View(gameMaps);
+            {            
+                var player = _player.GetPlayerById(id);
+                var session = _sess.GetSessionById(player.IdSession);
+                
+               
+                List<PlayerDto> listplay = session.Players;
+                if (listplay[1].Id == id)
+                {
+                    return Ok(listplay[0].PlayerBoards.ShotsBoard);
+                }
+                else
+                {
+                return Ok(listplay[1].PlayerBoards.ShotsBoard);
+                }
             }
             catch(Exception) 
+            {
+                return NotFound("Cannot find the gameMap you're looking for");
+            }
+        }
+        [HttpGet("/Players/{id}/GameMaps")]
+        public ActionResult GetGamesMap(int id)
+        {
+
+            try
+            {
+                var  player = _player.GetPlayerById(id);
+                var gameMaps = player.GetPlayerBoards();
+
+                return Ok(gameMaps);
+            }
+            catch (Exception)
             {
                 return NotFound("Cannot find the ganeMap you're looking for");
             }
         }
-
         // ---------------------------- ROUTES FOR SHIPS ----------------------------  //
 
         [HttpPost("/GameMaps/{id}/Add_Ship")]
