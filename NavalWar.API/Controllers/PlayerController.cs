@@ -271,11 +271,83 @@ namespace NavalWar.API.Controllers
         [HttpPost("/GameMaps/{id}/Add_Ship")]
         public ActionResult Add_Ship(int id,int x, int y, int direction,int longueur )
         {
+            if (x == -4)
+            {
+                x = 0;
+            }
+            if (x == -3)
+            {
+                x = 1;
+            }
+            if (x == -2)
+            {
+                x = 2;
+            }
+            if (x == -1)
+            {
+                x = 3;
+            }
+            if (x == 0)
+            {
+                x = 4;
+            }
+            if (x == 1)
+            {
+                x = 5;
+            }
+            if (x == 2)
+            {
+                x = 6;
+            }
+            if (x == 3)
+            {
+                x = 7;
+            }
+            if (x == 4)
+            {
+                x = 8;
+            }
+            if (y == -4)
+            {
+                y = 8;
+            }
+            if (y == -3)
+            {
+                y = 7;
+            }
+            if (y == -2)
+            {
+                y = 6;
+            }
+            if (y == -1)
+            {
+                y = 5;
+            }
+            if (y == 0)
+            {
+                y = 4;
+            }
+            if (y == 1)
+            {
+                y = 3;
+            }
+            if (y == 2)
+            {
+                y = 2;
+            }
+            if (y == 3)
+            {
+                y = 1;
+            }
+            if (y == 4)
+            {
+                y = 0;
+            }
             var player = _player.GetPlayerById(id);
             var session = _sess.GetSessionById(player.IdSession);
             if (player.etat_joueur != 1)
             {
-                GetbateauDto r = new GetbateauDto(x+4,y-4,direction,longueur);
+                GetbateauDto r = new GetbateauDto(x,y,direction,longueur);
 
                 try
                 {
