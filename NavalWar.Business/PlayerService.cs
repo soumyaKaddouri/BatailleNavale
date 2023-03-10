@@ -147,7 +147,7 @@ namespace NavalWar.Business
                         for (int k = 0; k < shipLength; k++)
                         {
 
-                            if (player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetX][startOffsetY + k] == 1)
+                            if (player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetY+k][startOffsetX] == 1)
                             {
                                 result = false;
                             }
@@ -165,7 +165,7 @@ namespace NavalWar.Business
                         for (int k = 0; k < shipLength; k++)
                         {
 
-                            if (player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetX][startOffsetY - k] == 1)
+                            if (player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetY-k][startOffsetX] == 1)
                             {
                                 result = false;
                             }
@@ -183,7 +183,7 @@ namespace NavalWar.Business
                         for (int k = 0; k < shipLength; k++)
                         {
 
-                            if (player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetX - k][startOffsetY] == 1)
+                            if (player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetY][startOffsetX - k] == 1)
                             {
                                 result = false;
                             }
@@ -201,7 +201,7 @@ namespace NavalWar.Business
                         for (int k = 0; k < shipLength; k++)
                         {
 
-                            if (player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetX + k][startOffsetY] == 1)
+                            if (player.PlayerBoards.ShipPositionsBoard.Grid[startOffsetY][startOffsetX + k] == 1)
                             {
                                 result = false;
                             }
