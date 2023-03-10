@@ -11,6 +11,15 @@ import { StartingPage } from "./StartingPage/components/starting-page";
 import * as THREE from "three";
 
 function App() {
+  let LeftBoxes = [];
+
+  for (let i = 1; i <= 81; i++) {
+    let element = {
+      id: i,
+      type: 0
+    };
+    LeftBoxes.push(element);
+  }
   const [game, setGame] = useState(
     {
       pointerPosition: { x: 0, y: 0, z: 0.2 },
@@ -36,7 +45,8 @@ function App() {
         isFixed: false,
       },
       ],
-      clickedBox:null, isBoxClicked: false
+      clickedBox: null, isBoxClicked: false,
+      leftBoxes:LeftBoxes
     }
   );
 

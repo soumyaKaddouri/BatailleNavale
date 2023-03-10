@@ -101,8 +101,8 @@ export const SceneManager = () => {
         </>
       ) : null}
       {Array.from({ length: 9 }, (_, i) =>
-        Array.from({ length: 9 }, (_, j) => (
-          <BoxItem i={i - 5} j={j + 3} key={`${i}-${j}`} isLeft={true} />
+        Array.from({ length: 9 }, (_, j) => ( 
+          <BoxItem BoxId={i * 10 + j - i + 1} i={i - 5} j={j + 3} key={`${i}-${j}`} isLeft={true} />
         ))
       )}
 

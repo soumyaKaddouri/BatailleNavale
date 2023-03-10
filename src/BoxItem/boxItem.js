@@ -6,7 +6,7 @@ import { TextureLoader } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { GameContext } from "../GameContext/Game-context";
 
-export const BoxItem = ({i, j, isLeft}) => {
+export const BoxItem = ({i, j, isLeft, BoxId}) => {
     const [colorCases, setColorCases] = useState(0x3ac9fc);
     const [texture, setTexture] = useState(null);
     const [exploded, setExploded] = useState(false);
@@ -38,8 +38,12 @@ export const BoxItem = ({i, j, isLeft}) => {
             onPointerLeave={(event) => { setColorCases(0x3ac9fc) }}
             onClick={() => {
                 // Change the texture when the box is clicked
-                (!game?.isBoxClicked && setTexture(newTexture));
-                (isLeft && setGame({ ...game, clickedBox: { x:i+5, y:j-3}, isBoxClicked: true}));
+                //console.log((i+5) * 10 + (j-3-((i+5)))+1);
+                //console.log(game.leftBoxes.find((a) => a.id === (i + 5) * 10 + (j - 3 - ((i + 5))) + 1));
+                console.log(game.leftBoxes[BoxId-1]);
+                //console.log(BoxId);
+                (setTexture(newTexture));
+                (isLeft && setGame({ ...game, clickedBox: { x:i+5-4, y:j-3-4, id:BoxId}, isBoxClicked: true}));
                 //setExploded(true);
                 //setDestroyed(true);
             }}
@@ -49,8 +53,8 @@ export const BoxItem = ({i, j, isLeft}) => {
               args={[0.82, 0.82, 0.1]}>
             </boxGeometry>
             <meshBasicMaterial color={colorCases}/>
-            {isLeft && texture && <meshBasicMaterial attach="material" map={texture} />}
-            {exploded === true &&
+            {isLeft && texture && game?.leftBoxes[BoxId-1]?.type === 1 && <meshBasicMaterial attach="material" map={texture} />}
+            {game?.leftBoxes[BoxId-1]?.type === 2 &&
                 <mesh
                     scale={[0.9, 0.9, 0.9]}
                 >

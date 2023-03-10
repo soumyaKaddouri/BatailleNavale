@@ -148,7 +148,46 @@ export const GameCanvas = () => {
   }
 
   const handleShoot = () => {
-    setIsShootClicked(true);
+    if (game.isBoxClicked === true) {
+      fetch("https://192.168.43.54:5028/Players/" + game.idPlayer + "/Shoot?x=" + game.clickedBox.x + "&y=" + game.clickedBox.y, {
+        "credentials": "omit",
+        "headers": {
+          "Accept": "*/*",
+          "Accept-Language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "same-origin"
+        },
+        "method": "PUT",
+        "mode": "cors"
+      }).then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      return response.text().then(response => {throw new Error(response)})
+    }
+  })
+        // eslint-disable-next-line no-loop-func
+        .then(data => {
+          console.log(data.value.resultat);
+          if (data.value.resultat === -1) {
+            //texture
+            var copy1 = { ...game };
+            copy1.leftBoxes[copy1.clickedBox.id - 1].type = 1;
+            setGame(copy1);
+          } else if (data.value.resultat === 1) {
+            //explosion
+            var copy2 = { ...game };
+            copy2.leftBoxes[copy2.clickedBox.id - 1].type = 2;
+            setGame(copy2);
+          }
+        }
+        ).catch(error => {
+          console.log(error.message);
+          setIsYourTurn(false);
+          setGame({...game, exploded:false})
+  });
+    }
     setGame({ ...game, isBoxClicked: false});
   }
 
@@ -205,24 +244,24 @@ export const GameCanvas = () => {
         
           }</>
           : <>
-            <Collapse in={isYourTurn}>
+            <Collapse in={!isYourTurn}>
             <Alert
-              severity="success"
+              severity="error"
           action={
             <IconButton
               aria-label="close"
               color="inherit"
               size="small"
-              // onClick={() => {
-              //   setIsYourTurn(!isYourTurn);
-              // }}
+              onClick={() => {
+                setIsYourTurn(!isYourTurn);
+              }}
             >
               <CloseIcon fontSize="inherit" />
             </IconButton>
           }
           sx={{ mb: 2 }}
         >
-          It's your turn !
+          It's not your turn !
         </Alert>
       </Collapse>
             <ReadyButton disabled={!game.isBoxClicked && !isYourTurn} onClick={handleShoot}>Shoot</ReadyButton>
