@@ -36,6 +36,7 @@ const CustomCard = (props) => {
   .then(response => response.json())
       .then(data => {
         setSessionId(data);
+        setGame({ ...game, idSession: data});
       });
   }
 
@@ -193,7 +194,10 @@ const CustomCard = (props) => {
           </>}
           {!createSessionSelected && !maxPlayersAchieved &&<>
           <Grid item xs={1}>
-          <TextField id="SessionID" placeholder="Session ID" label="Session ID" variant="outlined" onChange={(event) => {setSessionId(event.target.value)}}/>
+              <TextField id="SessionID" placeholder="Session ID" label="Session ID" variant="outlined" onChange={(event) => {
+                setSessionId(event.target.value);
+              setGame({ ...game, idSession: event.target.value});
+              }} />
             </Grid>
             <Grid item xs={2}>
           <TextField id="playerName" placeholder="Player Name" label="Player name" variant="outlined" onChange={(event) => {setPlayer({name:event.target.value})}}/>

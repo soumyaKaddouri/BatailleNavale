@@ -38,7 +38,8 @@ export const BoxItem = ({i, j, isLeft}) => {
             onPointerLeave={(event) => { setColorCases(0x3ac9fc) }}
             onClick={() => {
                 // Change the texture when the box is clicked
-                (setTexture(newTexture));
+                (!game?.isBoxClicked && setTexture(newTexture));
+                (isLeft && setGame({ ...game, clickedBox: { x:i+5, y:j-3}, isBoxClicked: true}));
                 //setExploded(true);
                 //setDestroyed(true);
             }}

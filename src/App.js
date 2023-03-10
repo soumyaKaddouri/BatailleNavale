@@ -35,7 +35,8 @@ function App() {
         shipId: 5,
         isFixed: false,
       },
-    ]  
+      ],
+      clickedBox:null, isBoxClicked: false
     }
   );
 

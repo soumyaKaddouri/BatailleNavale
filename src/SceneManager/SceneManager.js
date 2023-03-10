@@ -46,7 +46,7 @@ export const SceneManager = () => {
 
   return (
     <>
-      {console.log(game.idPlayer)}
+      {/* {console.log(game.idPlayer)} */}
 
       {model1 && model2 ? (
         <>
@@ -58,6 +58,8 @@ export const SceneManager = () => {
             rotation_={rotation1}
             scale={scale1}
             model={model1}
+            length={3}
+            offset={1}
           />
           <Ship
             id={2}
@@ -74,6 +76,8 @@ export const SceneManager = () => {
             rotation_={rotation2}
             scale={scale2}
             model={model3}
+            length={3}
+            offset={1}
           />
           <Ship
             id={4}
@@ -81,6 +85,8 @@ export const SceneManager = () => {
             rotation_={rotation2}
             scale={scale2}
             model={model4}
+            length={3}
+            offset={1}
           />
           <Ship
             id={5}
@@ -88,6 +94,8 @@ export const SceneManager = () => {
             rotation_={rotation2}
             scale={scale2}
             model={model5}
+            length={3}
+            offset={1}
           />
           {/* <Ship position_={position4} rotation_={rotation4} scale={scale4} model={model4} /> */}
         </>
