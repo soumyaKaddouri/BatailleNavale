@@ -9,6 +9,13 @@
       "type": "mssql.azure",
       "connectionId": "NavalWarString",
       "dynamicId": null
+    },
+    "mssql2": {
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/navalwarserver/databases/NavalWar.DAL_db",
+      "type": "mssql.azure",
+      "connectionId": "NavalWarstr",
+      "dynamicId": null
     }
   }
 }
